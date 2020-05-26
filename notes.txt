@@ -1,2 +1,25 @@
-- Claimants can now create a rebellion without the help of the player. So, there are civil wars.
+ Added full nordinvasion swadian set. (0.01)
+- Added the [OSP] Tavern Animation Pack from Slawomir of Aaarrghh (dedal). (0.02)
 - Added The Bowman's scenes for Sargoth, Thir, Wercheg, Rivacheg, Curaw, Khudan, Reyvadin, Praven, Suno, Uxkhal and Dhirim.
+- Added New Sargoth map from the Nords Map pack.(0.03)
+- Added full Defender set. (0.03)
+- Added Royal Plate Armor, Swadian Lamellar Armour, Swadian Mail Shirt. (0.03)
+- Added 7 colored lances. (0.03)
+- Added Stone Maul, Swadian Resilience, Tempered Steel Falchion, Swadian Courage, Kriegsmesser. (0.03)
+- Added Injustice, Fang of Fafnir. (0.03)
+- Added Dark and Light Milanese Armour. (0.03)
+- Added Rhodok War Hammer, Rhodok Warpick, Two Handed War Axe. (0.03)
+- Added Reindeer. (0.03)
+- Added Lav's Siege camp. (0.03)
+- Added NI two hander overswing animation. (0.03)
+- Added Musics (0.03)
+- Added the Perfectly Smooth, Mouse-Enabled Deathcam V1.4. (0.04)
+- Added tons of items (+250). Tried to adjust a item prices. List will be done later on. (1.0.0)
+- Added some units : Swadian Holy Knight, Swadian kingsman, Varangian Guard, Ranger of the Woods, Khergit Khazaks, Khergit War Elephants, 
+Nord Heavy Beserker, Nord Merkismathr, Rhodok Arbaletrier, Rhodok Master Spearman, Sarranid Camel Archer, Brass Desert Warrior.  (1.0.0)
+- Added dialog system which enables the player to recruit elite troops (above) by building a military academy in his city.  (1.0.0)
+- Added AI system which makes Lords build a military academy which enables them to recruit these units within a limit.  (1.0.0)
+(according to their status and fiefs).
+- Claimants can now create a rebellion without the help of the player. So, there are civil wars. (1.1.0)
+- Added The Bowman's scenes for Sargoth, Thir, Wercheg, Rivacheg, Curaw, Khudan, Reyvadin, Praven, Suno, Uxkhal and Dhirim. (1.1.0) ?
+- The player now waits when sieging a town/castle and when raiding a village and can run away when an enemy approches. (1.1.0)
