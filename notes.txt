@@ -11,3 +11,5 @@
 - Added Reindeer. (0.03)
 - Added Lav's Siege camp. (0.03)
 - Added NI two hander overswing animation. (0.03)
+- Added Musics (0.03)
+- Added the Perfectly Smooth, Mouse-Enabled Deathcam V1.4. (0.04)
