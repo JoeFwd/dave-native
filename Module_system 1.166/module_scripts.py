@@ -903,20 +903,8 @@ scripts = [
 #        (display_message, "@{!}DEBUG : script_update_volunteer_troops_in_town updated"),
 #      (try_end),
        (try_for_range, ":town_no", towns_begin, towns_end),
-            (party_set_slot, ":town_no", slot_center_volunteer_troop_a_amount_town, -1),
+            #(party_set_slot, ":town_no", slot_center_volunteer_troop_a_amount_town, -1),
        (try_end), #Removes the ability to recruit elite troops at the beginning of the game due to the conditions of the update troops script.
-       (party_add_members, "p_main_party", "trp_swadian_elit_troop_a", 1.),
-      (party_add_members, "p_main_party", "trp_swadian_elit_troop_b", 1),
-       (party_add_members, "p_main_party", "trp_vaegir_elit_troop_a", 1),
-       (party_add_members, "p_main_party", "trp_vaegir_elit_troop_b", 1),
-       (party_add_members, "p_main_party", "trp_rhodok_elit_troop_a", 1),
-       (party_add_members, "p_main_party", "trp_rhodok_elit_troop_b", 1),
-       (party_add_members, "p_main_party", "trp_khergit_elit_troop_a", 1),
-       (party_add_members, "p_main_party", "trp_khergit_elit_troop_b", 1),
-       (party_add_members, "p_main_party", "trp_nord_elit_troop_a", 50),
-        (party_add_members, "p_main_party", "trp_nord_elit_troop_b", 1),
-        (party_add_members, "p_main_party", "trp_sarranid_elit_troop_a", 1),
-        (party_add_members, "p_main_party", "trp_sarranid_elit_troop_b", 1),
 #Eagle
 	  
       (try_for_range, ":cur_kingdom", kingdoms_begin, kingdoms_end),
