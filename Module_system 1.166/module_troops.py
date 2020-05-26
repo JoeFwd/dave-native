@@ -2129,7 +2129,7 @@ troops = [
    def_attrib|level(1),wp_melee(10),knows_athletics_1|knows_ironflesh_2|knows_shield_2, 0x00000000320410022d2595495491afa400000000001d9ae30000000000000000, mercenary_face_2],   
    
   ["relative_of_merchants_end","relative_of_merchants_end","relative_of_merchants_end",tf_hero, 0,0, fac_commoners,[],def_attrib|level(2),wp(20),knows_inventory_management_10,0],     
-
+#Eagle
 #Dedal begin
   ["musican_male","Musican","Musican",tf_guarantee_boots|tf_guarantee_armor,0,0,fac_commoners,[itm_short_tunic,itm_linen_tunic,itm_tabard,itm_woolen_hose,itm_blue_hose],def_attrib|level(4),wp(60),knows_common,man_face_young_1, man_face_old_2],
   ["musican_female","Musican","Musican",tf_female|tf_guarantee_boots|tf_guarantee_armor,0,0,fac_commoners,[itm_blue_dress,itm_dress,itm_woolen_dress,itm_peasant_dress,itm_woolen_hose,itm_blue_hose,itm_wimple_a,itm_wimple_with_veil,itm_female_hood],def_attrib|level(2),wp(40),knows_common,woman_face_1,woman_face_2],
@@ -2139,7 +2139,7 @@ troops = [
   ["swadian_elit_troop_a","Swadian Kingsman","Swadian Kingsmen",tf_guarantee_boots|tf_guarantee_armor|tf_guarantee_gloves|tf_guarantee_helmet|tf_guarantee_shield, 0,0,fac_kingdom_1,
   [itm_swadhalfplate, itm_swadgaunt, itm_swadboots, itm_winged_great_helmet, itm_weimarhelm, itm_knight_armor_tripolli_a, itm_knight_armor_tripolli_a_cloak,
    itm_phoenix_shield, itm_axe_crusader_a, itm_axe_crusader_b, itm_axe_crusader_c, itm_axe_crusader_d, itm_crusader_sword_a, itm_crusader_sword_b,  itm_crusader_sword_c, itm_greatsword_a, itm_claymore_no1, itm_glaive_xv, itm_burgundian_glaive], 
-  str_16|agi_16|int_9|cha_8|level(29),wp_one_handed (140) | wp_two_handed (170) | wp_polearm (170) | wp_archery (75) | wp_crossbow (75) | wp_throwing (75),knows_common|knows_riding_5|knows_shield_5|knows_ironflesh_5|knows_power_strike_5,vaegir_face_middle_1, vaegir_face_older_2],
+  str_16|agi_16|int_9|cha_8|level(29),wp_one_handed (140) | wp_two_handed (170) | wp_polearm (170) | wp_archery (75) | wp_crossbow (75) | wp_throwing (75),knows_common|knows_riding_5|knows_shield_5|knows_ironflesh_5|knows_power_strike_5|knows_athletics_5,vaegir_face_middle_1, vaegir_face_older_2],
   ["vaegir_elit_troop_a","Varangian Guard","Varangian Guards",tf_guarantee_boots|tf_guarantee_armor|tf_guarantee_gloves|tf_guarantee_helmet|tf_guarantee_shield,0,0,fac_kingdom_2,
   [itm_litchina_helm, itm_rus_scale, itm_lamellar_gauntlets, itm_rus_cav_boots, 
    itm_dec_steel_shield, itm_kriegsmesser,itm_falshion_1, itm_scimitar_b],
@@ -2151,7 +2151,7 @@ troops = [
   ["sarranid_elit_troop_a","Brass Desert Warrior","Brass Desert Warriors",tf_mounted|tf_guarantee_boots|tf_guarantee_armor|tf_guarantee_gloves|tf_guarantee_helmet|tf_guarantee_horse|tf_guarantee_shield,0,0,fac_kingdom_6,
   [itm_camel1, itm_camel2, itm_camel3, itm_camel4, itm_royal_scale_armor, itm_brass_mamluke_mail,itm_sarranid_royal_armor, itm_normanpepperpot, itm_sarranid_boots_brass, itm_brass_mail_mittens,
    itm_bastard_iron_war_axe, itm_corseque_no1, itm_corseque_no2, itm_corseque_no3,itm_corseque_no4, itm_brass_shield1, itm_painted_brass_shield],
-   str_15|agi_15|int_10|cha_9|level(29), wp_one_handed (140) | wp_two_handed (140) | wp_polearm (150) | wp_archery (75) | wp_crossbow (75) | wp_throwing (75),knows_common|knows_riding_6|knows_shield_5|knows_ironflesh_5|knows_power_strike_5,swadian_face_middle_1, swadian_face_older_2],
+   str_15|agi_15|int_10|cha_9|level(29), wp_one_handed (140) | wp_two_handed (150) | wp_polearm (150) | wp_archery (75) | wp_crossbow (75) | wp_throwing (75),knows_common|knows_riding_6|knows_shield_5|knows_ironflesh_5|knows_power_strike_6,swadian_face_middle_1, swadian_face_older_2],
   ["khergit_elit_troop_a","Khergit Khazak","Khergit Khazaks",tf_guarantee_ranged|tf_mounted|tf_guarantee_boots|tf_guarantee_armor|tf_guarantee_gloves|tf_guarantee_helmet|tf_guarantee_horse|tf_guarantee_shield,0,0,fac_kingdom_3,
   [itm_gnezdovo_helm_a, itm_gnezdovo_helm_b, itm_rus_cav_boots, itm_rus_lamellar_a, itm_rus_lamellar_b, itm_ni_nordic_gaunt,
    itm_elmwood_bow, itm_ivory_bow, itm_arrow_tyrk_b, itm_arrow_tyrk_c, itm_arrow_tyrk_a, itm_painted_brass_shield1, itm_painted_brass_shield5, itm_winged_mace,
@@ -2159,7 +2159,7 @@ troops = [
    str_15|agi_15|int_10|cha_9|level(29),wp_one_handed (150) | wp_two_handed (130) | wp_polearm (130) | wp_archery (150) | wp_crossbow (75) | wp_throwing (75),knows_common|knows_riding_7|knows_horse_archery_7|knows_shield_4|knows_power_draw_5|knows_ironflesh_5|knows_power_strike_5,khergit_face_middle_1, khergit_face_older_2],
   ["nord_elit_troop_a","Nord Heavy Beserker","Nord Heavy Beserkers",tf_guarantee_boots|tf_guarantee_armor|tf_guarantee_gloves|tf_guarantee_shield|tf_guarantee_helmet,0,0,fac_kingdom_4,
    [itm_ssh_nordic_armour, itm_ssh_nordic_armour_pelt, itm_ssh_nordic_helm, itm_ssh_nordic_boots, itm_ni_nordic_gaunt, itm_mammen_axe, itm_one_handed_battle_axe_c, itm_long_axe_c_alt, itm_tab_shield_round_e, itm_warhammer_ita], 
-    str_16|agi_18|int_8|cha_7|level(29),wp(170),knows_ironflesh_7|knows_power_strike_8|knows_power_throw_5|knows_riding_2|knows_athletics_7|knows_shield_6,nord_face_middle_1, nord_face_older_2],
+    str_16|agi_18|int_8|cha_7|level(29),wp(170),knows_ironflesh_7|knows_power_strike_7|knows_power_throw_5|knows_riding_2|knows_athletics_7|knows_shield_6,nord_face_middle_1, nord_face_older_2],
 # Second unit - Elit troops
   ["swadian_elit_troop_b","Swadian Holy Knight","Swadian Holy Knights",tf_mounted|tf_guarantee_boots|tf_guarantee_armor|tf_guarantee_gloves|tf_guarantee_helmet|tf_guarantee_horse|tf_guarantee_shield,0,0,fac_kingdom_1,
   [itm_jerusalem_king_horse, itm_horse_master_order_templar, itm_horse_master_order_hospitaller, itm_horse_master_order_tevton,
@@ -2174,7 +2174,7 @@ troops = [
    itm_urlls_bane, itm_elven_bow, itm_bladestring, itm_red_tree_arrows, itm_elmwood_arrows, itm_ebony_arrows, itm_ragnar_wrath],
    str_14|agi_18|int_10|cha_7|level(29),wp_one_handed (120) | wp_two_handed (100) | wp_polearm (100) | wp_archery (150) | wp_crossbow (75) | wp_throwing (75),knows_common|knows_athletics_7|knows_power_draw_6|knows_ironflesh_5|knows_power_strike_4,vaegir_face_middle_1, vaegir_face_older_2],
   ["rhodok_elit_troop_b","Rhodok Master Spearman","Rhodok Master Spearmen",tf_guarantee_boots|tf_guarantee_armor|tf_guarantee_gloves|tf_guarantee_helmet,0,0,fac_kingdom_5,
-  [itm_defenderarmourrhodok, itm_defendergauntlets, itm_defenderboots, itm_pepperpothelm1, itm_frenchpepperpot, itm_zitta_bascinet,
+  [itm_defenderarmour, itm_defendergauntlets, itm_defenderboots, itm_pepperpothelm1, itm_frenchpepperpot, itm_zitta_bascinet,
    itm_halberd_no1, itm_milanese_polehammer_no1, itm_glaive_xv, itm_burgundian_glaive, itm_guisarme_no1, itm_guisarme_no2, itm_guisarme_no3],
    str_17|agi_15|int_10|cha_7|level(29),wp_one_handed (140) | wp_two_handed (140) | wp_polearm (170) | wp_archery (75) | wp_crossbow (75) | wp_throwing (75),knows_common|knows_athletics_6|knows_ironflesh_6|knows_power_strike_6,rhodok_face_middle_1, rhodok_face_older_2],
   ["sarranid_elit_troop_b","Sarranid Camel Archer","Sarranid Camel Archers",tf_guarantee_ranged|tf_mounted|tf_guarantee_boots|tf_guarantee_armor|tf_guarantee_gloves|tf_guarantee_helmet|tf_guarantee_horse|tf_guarantee_shield,0,0,fac_kingdom_6,
@@ -2199,6 +2199,9 @@ troops = [
   ["master_swordsman5", "Master Swordsman", "Master Swordsmans", tf_hero|tf_randomize_face, 0, reserved, fac_neutral, [itm_sword_two_handed_a, itm_leather_vest, itm_mail_hauberk, itm_leather_jerkin, itm_leather_boots], def_attrib|level(10),wp(100),knows_common, rhodok_face_middle_1, rhodok_face_older_2],  
   ["master_swordsman6", "Master Swordsman", "Master Swordsmans", tf_hero|tf_randomize_face, 0, reserved, fac_neutral, [itm_sword_two_handed_a, itm_leather_vest, itm_mail_hauberk, itm_leather_jerkin, itm_leather_boots], def_attrib|level(10),wp(100),knows_common, swadian_face_middle_1, swadian_face_older_2],  
   ["master_swordsman_end", "Master Swordsman", "Master Swordsmans", tf_hero|tf_randomize_face, 0, reserved, fac_neutral, [itm_sword_two_handed_a, itm_leather_vest, itm_mail_hauberk, itm_leather_jerkin, itm_leather_boots], def_attrib|level(10),wp(100),knows_common, swadian_face_middle_1, swadian_face_older_2],  
+#Rebellion
+  ["dummy_king", "{!}dummy", "{!}dummy", tf_hero, 0,reserved,  fac_neutral,[itm_saddle_horse,itm_leather_jacket,itm_nomad_boots],def_attrib|level(2),wp(20),knows_common, 0x000000000008318101f390c515555594],
+#Eagle  
 ]
 
 #Troop upgrade declarations

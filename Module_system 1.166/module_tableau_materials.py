@@ -632,6 +632,29 @@ tableaus = [
      (store_script_param, ":faction_no", 1),
      (cur_tableau_set_background_color, 0xFFFFFFFF),
      (set_fixed_point_multiplier, 100),
+          #Eagle
+        #KAOS (POLITICAL) 
+     (try_begin),
+      (eq, ":faction_no", "fac_kingdom_7"),
+      (assign, ":faction_no", "fac_kingdom_1"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_8"),
+      (assign, ":faction_no", "fac_kingdom_2"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_9"),
+      (assign, ":faction_no", "fac_kingdom_3"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_10"),
+      (assign, ":faction_no", "fac_kingdom_4"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_11"),
+      (assign, ":faction_no", "fac_kingdom_5"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_12"),
+      (assign, ":faction_no", "fac_kingdom_6"),
+     (try_end),
+   #KAOS (POLITICAL)
+     #Eagle
      (try_begin),
        (is_between, ":faction_no", "fac_kingdom_1", kingdoms_end), #Excluding player kingdom
        (store_add, ":banner_mesh", "mesh_pic_arms_swadian", ":faction_no"),
@@ -649,6 +672,29 @@ tableaus = [
      (store_script_param, ":faction_no", 1),
      (cur_tableau_set_background_color, 0xFFFFFFFF),
      (set_fixed_point_multiplier, 100),
+     #Eagle
+        #KAOS (POLITICAL) 
+     (try_begin),
+      (eq, ":faction_no", "fac_kingdom_7"),
+      (assign, ":faction_no", "fac_kingdom_1"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_8"),
+      (assign, ":faction_no", "fac_kingdom_2"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_9"),
+      (assign, ":faction_no", "fac_kingdom_3"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_10"),
+      (assign, ":faction_no", "fac_kingdom_4"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_11"),
+      (assign, ":faction_no", "fac_kingdom_5"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_12"),
+      (assign, ":faction_no", "fac_kingdom_6"),
+     (try_end),
+   #KAOS (POLITICAL)
+     #Eagle
      (try_begin),
        (is_between, ":faction_no", "fac_kingdom_1", kingdoms_end), #Excluding player kingdom
        (store_add, ":banner_mesh", "mesh_pic_arms_swadian", ":faction_no"),
@@ -664,6 +710,28 @@ tableaus = [
    [
      (store_script_param, ":faction_no", 1),
      (set_fixed_point_multiplier, 100),
+     #KAOS (POLITICAL) 
+     (try_begin),
+      (eq, ":faction_no", "fac_kingdom_7"),
+      (assign, ":faction_no", "fac_kingdom_1"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_8"),
+      (assign, ":faction_no", "fac_kingdom_2"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_9"),
+      (assign, ":faction_no", "fac_kingdom_3"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_10"),
+      (assign, ":faction_no", "fac_kingdom_4"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_11"),
+      (assign, ":faction_no", "fac_kingdom_5"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_12"),
+      (assign, ":faction_no", "fac_kingdom_6"),
+     (try_end),
+   #KAOS (POLITICAL)
+     #Eagle
      (try_begin),
        (faction_get_slot, ":leader_troop", ":faction_no", slot_faction_leader),
        (ge, ":leader_troop", 0),

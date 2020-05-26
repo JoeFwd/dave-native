@@ -1363,6 +1363,15 @@ pretenders_end = kingdom_ladies_begin
 lords_begin = "trp_knight_1_1"
 lords_end = pretenders_begin
 
+#Eagle
+#KAOS (Rebellion) 
+rebel_factions_begin = "fac_kingdom_7"
+rebel_factions_end =   "fac_kingdoms_end"
+
+slot_rebellion_date = 244
+#KAOS (Rebellion)
+#Eagle
+
 kings_begin = "trp_kingdom_1_lord"
 kings_end = lords_begin
 

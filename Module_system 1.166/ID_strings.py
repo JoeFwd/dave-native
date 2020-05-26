@@ -3200,5 +3200,13 @@ str_disallow_ranged_weapons = 3198
 str_ranged_weapons_are_disallowed = 3199
 str_ranged_weapons_are_allowed = 3200
 str_duel_starts_in_reg0_seconds = 3201
+str_lord_defects_rebel = 3202
+str_lord_defects_marshall = 3203
+str_kaos_swadia_king = 3204
+str_kaos_vaegirs_king = 3205
+str_kaos_khergit_king = 3206
+str_kaos_nords_king = 3207
+str_kaos_rhodoks_king = 3208
+str_kaos_sarranid_king = 3209
 
 

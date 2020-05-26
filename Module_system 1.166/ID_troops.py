@@ -950,3 +950,4 @@ trp_master_swordsman4 = 948
 trp_master_swordsman5 = 949
 trp_master_swordsman6 = 950
 trp_master_swordsman_end = 951
+trp_dummy_king = 952

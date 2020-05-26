@@ -94,10 +94,9 @@ simple_triggers = [
       (party_relocate_near_party, "p_main_party", "$capturer_party", 0),
     ]),
 
-
 #Auto-menu
   (0,
-   [          
+   [         
      (try_begin),
        (gt, "$g_last_rest_center", 0),
        (party_get_battle_opponent, ":besieger_party", "$g_last_rest_center"),
@@ -128,9 +127,11 @@ simple_triggers = [
        (else_try),
          (ge,"$auto_enter_town",1),
          (start_encounter, "$auto_enter_town"),
-       (else_try),
-         (ge,"$auto_besiege_town",1),
-         (start_encounter, "$auto_besiege_town"),
+     #Eagle - Caba`drin code
+       #(else_try),  ### Comment out this entire else_try
+         #(ge,"$auto_besiege_town",1), ### Here
+         #(start_encounter, "$auto_besiege_town"), ###And here, too
+     #Eagle - Caba`drin code
        (else_try),
          (ge,"$g_camp_mode", 1),
          (assign, "$g_camp_mode", 0),
@@ -138,13 +139,42 @@ simple_triggers = [
          (assign, "$g_player_icon_state", pis_normal),
          
          (rest_for_hours, 0, 0, 0), #stop camping
-                  
+                 
          (display_message, "@Breaking camp..."),
        (try_end),
      (try_end),
      ]),
+    #Eagle - Caba`drin code
+(0.25,
+   [
+      (gt,"$auto_besiege_town",0),
+      (gt,"$g_player_besiege_town", 0),
+      (ge, "$g_siege_method", 1),
+   
+      (store_distance_to_party_from_party, ":distance", "$g_player_besiege_town", "p_main_party"),
+      (try_begin),
+        (gt, ":distance", raid_distance),
+        (str_store_party_name_link, s1, "$g_player_besiege_town"),
+        (display_message, "@You have broken off your siege of {s1}."),
+        (call_script, "script_lift_siege", "$g_player_besiege_town", 0),
+        (assign, "$g_player_besiege_town", -1),
+        (rest_for_hours, 0, 0, 0), #stop resting - abort
+      (else_try),
+        (ge, ":distance", raid_distance / 2),
+        (map_free),
+        (str_store_party_name_link, s1, "$g_player_besiege_town"),
+        (display_message, "@You cannot maintain your siege of {s1} from this distance. You risk your lines breaking."),
+      (else_try),
+        (store_current_hours, ":cur_hours"),
+        (ge, ":cur_hours", "$g_siege_method_finish_hours"),
+        (neg|is_currently_night),
+        (rest_for_hours, 0, 0, 0), #stop resting, if resting
+        (start_encounter, "$auto_besiege_town"),
+      (try_end),
+    ]), 
+    #Eagle - Caba`drin code
 
-
+    
 #Notification menus
   (0,
    [
@@ -303,9 +333,10 @@ simple_triggers = [
 		
 	(try_end),	
 	]),
-   
-   
-#Player raiding a village
+
+
+
+  #Player raiding a village
 # This trigger will check if player's raid has been completed and will lead control to village menu.
   (1,
    [
@@ -314,9 +345,11 @@ simple_triggers = [
         (neq, "$g_player_is_captive", 0),
         #(rest_for_hours, 0, 0, 0), #stop resting - abort
         (assign,"$g_player_raiding_village",0),
-      (else_try),
-        (map_free), #we have been attacked during raid
-        (assign,"$g_player_raiding_village",0),
+    #Eagle - Caba`drin code
+     ### (else_try),         ###Remove this entire Else-Try###
+       ### (map_free), #we have been attacked during raid
+       ### (assign,"$g_player_raiding_village",0),
+    #Eagle - Caba`drin code
       (else_try),
         (this_or_next|party_slot_eq, "$g_player_raiding_village", slot_village_state, svs_looted),
         (party_slot_eq, "$g_player_raiding_village", slot_village_state, svs_deserted),
@@ -324,15 +357,37 @@ simple_triggers = [
         (rest_for_hours, 0),
         (assign,"$g_player_raiding_village",0),
         (assign,"$g_player_raid_complete",1),
+      #Eagle - Caba`drin code
       (else_try),
         (party_slot_eq, "$g_player_raiding_village", slot_village_state, svs_being_raided),
-        (rest_for_hours, 3, 5, 1), #rest while attackable
+#        (rest_for_hours_interactive, 3, 5, 1), #rest while attackable    ###CHANGE rest_for_hours to rest_for_hours_interactive; ###OPTIONAL COMMENT OUT
+      #Eagle - Caba`drin code
       (else_try),
         (rest_for_hours, 0, 0, 0), #stop resting - abort
         (assign,"$g_player_raiding_village",0),
         (assign,"$g_player_raid_complete",0),
       (try_end),
     ]),
+    #Eagle - Caba`drin code
+  (0.25,
+   [
+      (ge,"$g_player_raiding_village",1),
+      (store_distance_to_party_from_party, ":distance", "$g_player_raiding_village", "p_main_party"),
+      (try_begin),
+        (gt, ":distance", raid_distance),
+        (str_store_party_name_link, s1, "$g_player_raiding_village"),
+        (display_message, "@You have broken off your raid of {s1}."),
+        (call_script, "script_village_set_state", "$current_town", 0),
+        (party_set_slot, "$current_town", slot_village_raided_by, -1),
+        (assign, "$g_player_raiding_village", 0),
+        (rest_for_hours, 0, 0, 0), #stop resting - abort
+      (else_try),
+        (ge, ":distance", raid_distance / 2),
+        (map_free),
+        (jump_to_menu, "mnu_village_loot_continue"),
+      (try_end),
+    ]),
+    #Eagle - Caba`drin code
 
   #Pay day.
   (24 * 7,
@@ -1892,6 +1947,10 @@ simple_triggers = [
          (else_try),
            (neg|faction_slot_eq, ":cur_faction", slot_faction_state, sfs_active),
            (try_begin),
+            #Eagle
+             (this_or_next|is_between, ":troop_no", kings_begin, kings_end),
+             (is_between, ":troop_no", pretenders_begin, pretenders_end), #A voir si on veut ajouter le cur_faction en defeated, on a deja la cond. de kingdom_hero
+            #Eagle
              (is_between, ":troop_no", kings_begin, kings_end),
              (troop_set_slot, ":troop_no", slot_troop_change_to_faction, "fac_commoners"),
            (else_try),
@@ -2848,6 +2907,9 @@ simple_triggers = [
         (try_begin),
           (is_between, ":kingdom_pretender", pretenders_begin, pretenders_end),
           (neq, ":kingdom_pretender", "$supported_pretender"),
+        #Eagle
+          (neg|troop_slot_eq, ":kingdom_pretender", slot_troop_occupation, slto_kingdom_hero), #Won't remove the pretender if he's rebelling without the player's help.
+        #Eagle
           (troop_set_slot, ":kingdom_pretender", slot_troop_cur_center, 0), #remove pretender from the world
         (try_end),
         (assign, ":faction_removed", 1),
@@ -3025,10 +3087,6 @@ simple_triggers = [
 	(try_end),
     ]),
 
-#  (12,
-#   [
-#       (call_script, "script_auto_inventory_item_triage"),
-#    ]),
 #Eagle end
 		
   # Reduce renown slightly by 0.5% every week
@@ -4121,6 +4179,143 @@ simple_triggers = [
       (item_set_slot, "itm_wine", slot_item_food_bonus, 5),
       (item_set_slot, "itm_ale", slot_item_food_bonus, 4),
    ]),
+
+#Eagle
+	#KAOS  (POLITICAL)
+	#########################################################################################################################
+	#Start Faction Rebellion triggers																						#
+	#########################################################################################################################  
+	#
+	# Simple trigger to check the rebel faction and initiate rebellion if 
+	# the required paramaters of date and rebellion chance  
+	(24*7,
+	[   
+		(assign, ":random_chance", 0),
+		(try_for_range, ":faction_id", rebel_factions_begin, rebel_factions_end),
+		    (faction_slot_eq, ":faction_id", slot_faction_state, sfs_inactive),
+		    (neg|faction_slot_eq, ":faction_id", slot_faction_state, sfs_defeated),
+
+                (faction_get_slot,  ":rebellion_date", ":faction_id", slot_rebellion_date),
+	        (store_current_day, ":cur_day"),
+ 
+	        (try_begin),
+	            (eq, ":faction_id", "fac_kingdom_7"),
+	            (assign, ":rebel_lord", "trp_kingdom_1_pretender"),
+	            (assign, ":orig_faction", "fac_kingdom_1"),
+		    (assign, ":rebel_center", "p_town_4"), #SUNO
+		    (assign, ":rebel_claimed", "p_town_6"),#Praven
+	        (else_try),
+	            (eq, ":faction_id", "fac_kingdom_8"),
+	            (assign, ":rebel_lord", "trp_kingdom_2_pretender"),
+	            (assign, ":orig_faction", "fac_kingdom_2"),
+		    (assign, ":rebel_center", "p_town_13"),#Rivacheg
+		    (assign, ":rebel_claimed", "p_town_8"),#Reyvadin
+	        (else_try),
+	            (eq, ":faction_id", "fac_kingdom_9"),
+	            (assign, ":rebel_lord", "trp_kingdom_3_pretender"),
+	            (assign, ":orig_faction", "fac_kingdom_3"),
+		    (assign, ":rebel_center", "p_town_17"), #Ichamur
+		    (assign, ":rebel_claimed", "p_town_10"),#Tulga
+	        (else_try),
+	            (eq, ":faction_id", "fac_kingdom_10"),
+	            (assign, ":rebel_lord", "trp_kingdom_4_pretender"),
+	            (assign, ":orig_faction", "fac_kingdom_4"),
+		    (assign, ":rebel_center", "p_town_2"), #Tihr
+		    (assign, ":rebel_claimed", "p_town_1"),#Sargoth
+	        (else_try),
+	            (eq, ":faction_id", "fac_kingdom_11"),
+	            (assign, ":rebel_lord", "trp_kingdom_5_pretender"),
+	            (assign, ":orig_faction", "fac_kingdom_5"),
+		    (assign, ":rebel_center", "p_town_15"), #Yalen
+		    (assign, ":rebel_claimed", "p_town_5"),#Jelkala
+	        (else_try),
+	            (eq, ":faction_id", "fac_kingdom_12"),
+	            (assign, ":rebel_lord", "trp_kingdom_6_pretender"),
+	            (assign, ":orig_faction", "fac_kingdom_6"),
+		    (assign, ":rebel_center", "p_town_20"), #Durquba
+		    (assign, ":rebel_claimed", "p_town_19"),#Shariz
+	        (try_end),
+
+
+	        #Check that the current date is greater than the minimum day for rebellion to start
+	        (ge, ":cur_day", ":rebellion_date"),
+                (neg|faction_slot_eq, ":orig_faction", slot_faction_state, sfs_defeated), #We do not want a rebel faction popping if the original faction has been defeated. 
+	        (try_begin),
+                        (neq, "$supported_pretender", ":rebel_lord"),
+		        (call_script, "script_rebelion_assesment", ":orig_faction", ":faction_id"),
+		        (faction_get_slot,  ":rebellion_chance", ":faction_id", slot_faction_has_rebellion_chance),
+		        #Modify the random chance generation so that low fracturing makes it harder for a rebellion
+				(store_sub, ":lower_limit", 9, ":rebellion_chance"),
+				(store_random_in_range, ":random_chance", ":lower_limit", 9),     
+		        (try_begin),
+		            #Could change this conditional check to ge for a easier activation of rebellion
+		            (gt, ":rebellion_chance", ":random_chance"),
+		            (call_script, "script_start_claimant_rebellion", ":orig_faction", ":rebel_center", ":rebel_lord", ":faction_id", ":rebel_claimed"),
+		        (try_end),
+	        (try_end),
+#                (try_begin),    #Debug
+#	          (str_store_faction_name, s52, ":orig_faction"),
+#	          (assign, reg53, ":random_chance"),
+#	          (assign, reg54, ":rebellion_chance"),
+#	          (faction_get_slot, ":leader_no", ":faction_id", slot_faction_leader),
+#	          (str_store_troop_name, s55, ":leader_no"),
+#	          (display_log_message, "@{!} TRIGGER 24 : {s52} has a rebelion chance of {reg54} must be gt than {reg53} for rebel leader {s55}", 0xFF0000),
+#	        (try_end), 
+
+                
+		(try_end),
+	]
+	),
+
+	# Rename Rebell factions to original faction name if the original faction is defeated
+	(24,
+		[   
+	        
+			(try_for_range, ":faction_id", rebel_factions_begin, rebel_factions_end),
+                        (faction_slot_eq, ":faction_id", slot_faction_state, sfs_active),
+		        (try_begin),
+		        	(eq, ":faction_id", "fac_kingdom_7"),
+				    (faction_slot_eq, "fac_kingdom_1", slot_faction_state, sfs_defeated),
+				    (str_store_string, s1, "str_kaos_swadia_king"),
+				    (faction_set_name, "fac_kingdom_7", s1),
+                                    (faction_set_color, ":faction_id", 0xEE7744),
+		        (else_try),
+		        	(eq, ":faction_id", "fac_kingdom_8"),
+				    (faction_slot_eq, "fac_kingdom_2", slot_faction_state, sfs_defeated),
+				    (str_store_string, s1, "str_kaos_Vaegirs_king"),
+				    (faction_set_name, "fac_kingdom_8", s1),
+                                    (faction_set_color, ":faction_id", 0xCCBB99),
+		        (else_try),
+		        	(eq, ":faction_id", "fac_kingdom_9"),
+				    (faction_slot_eq, "fac_kingdom_3", slot_faction_state, sfs_defeated),
+				    (str_store_string, s1, "str_kaos_Khergit_king"),
+				    (faction_set_name, "fac_kingdom_9", s1),
+                                    (faction_set_color, ":faction_id", 0xCC99FF),
+		        (else_try),
+		        	(eq, ":faction_id", "fac_kingdom_10"),
+				    (faction_slot_eq, "fac_kingdom_4", slot_faction_state, sfs_defeated),
+				    (str_store_string, s1, "str_kaos_Nords_king"),
+				    (faction_set_name, "fac_kingdom_10", s1),
+                                    (faction_set_color, ":faction_id", 0x33DDDD),
+		        (else_try),
+		        	(eq, ":faction_id", "fac_kingdom_11"),
+				    (faction_slot_eq, "fac_kingdom_5", slot_faction_state, sfs_defeated),
+				    (str_store_string, s1, "str_kaos_Rhodoks_king"),
+				    (faction_set_name, "fac_kingdom_11", s1),
+                                    (faction_set_color, ":faction_id", 0x33DD33),
+		        (else_try),
+		        	(eq, ":faction_id", "fac_kingdom_12"),
+                                    (faction_slot_eq, "fac_kingdom_6", slot_faction_state, sfs_defeated),
+				    (str_store_string, s1, "str_kaos_Sarranid_king"),
+				    (faction_set_name, "fac_kingdom_12", s1),
+                                    (faction_set_color, ":faction_id", 0xDDDD33),
+		        (try_end),
+
+			(try_end),
+		]
+	),	
+#Eagle
+  
   (24,
    []),
   (24,

@@ -181,6 +181,8 @@ scripts = [
         (assign, reg3, "$cheat_mode"),
         (display_message, "@{!}DEBUG : Completed faction troop assignments, cheat mode: {reg3}"),
       (try_end),
+
+      
 #Begin Eagle
 # Build the special buildings in the 6 capitals to begin with
       (party_set_slot,"p_town_6",slot_center_has_military_academy,1),
@@ -221,7 +223,26 @@ scripts = [
       (faction_set_slot,"fac_kingdom_6",slot_faction_special_troop_b,"trp_sarranid_elit_troop_b"),
       (faction_set_slot,"fac_kingdom_6",slot_faction_master_swordsman,"trp_master_swordsman6"),
 	  # Ne end building
-      #End Eagle
+
+         #KAOS  (POLITICAL)
+         (store_random_in_range, ":swadian_date", 50, 100),
+         (faction_set_slot, "fac_kingdom_7",  slot_rebellion_date, ":swadian_date"),
+         (store_random_in_range, ":vaegir_date", 25, 75),
+         (faction_set_slot, "fac_kingdom_8",  slot_rebellion_date, ":vaegir_date"),
+         (store_random_in_range, ":khergit_date", 25, 75),
+         (faction_set_slot, "fac_kingdom_9",  slot_rebellion_date, ":khergit_date"),
+         (store_random_in_range, ":nord_date", 20, 60),
+         (faction_set_slot, "fac_kingdom_10",  slot_rebellion_date, ":nord_date"),
+         (store_random_in_range, ":rhodok_date", 25, 75),
+         (faction_set_slot, "fac_kingdom_11",  slot_rebellion_date, ":rhodok_date"),
+         (store_random_in_range, ":sarranid_date", 25, 75),
+         (faction_set_slot, "fac_kingdom_12",  slot_rebellion_date, ":sarranid_date"),
+         #KAOS  (POLITICAL)
+      #Test
+#     (try_for_range, ":rebel_faction", rebel_factions_begin, rebel_factions_end),
+#        (faction_set_slot, ":rebel_faction",  slot_rebellion_date, 0),
+#      (try_end),
+      #Eagle end
       
 # Factions:
       (faction_set_slot, "fac_kingdom_1",  slot_faction_culture, "fac_culture_1"),
@@ -247,6 +268,19 @@ scripts = [
       (faction_set_slot, "fac_kingdom_6",  slot_faction_culture, "fac_culture_6"),
       (faction_set_slot, "fac_kingdom_6",  slot_faction_leader, "trp_kingdom_6_lord"),
 	  (troop_set_slot, "trp_kingdom_6_lord", slot_troop_renown, 1200),
+
+      #Eagle
+      (try_for_range, ":faction_no", rebel_factions_begin, rebel_factions_end),
+          (faction_set_slot, ":faction_no",  slot_faction_leader, "trp_dummy_king"),
+      (try_end),
+      
+      (faction_set_slot, "fac_kingdom_7",  slot_faction_culture, "fac_culture_1"),
+      (faction_set_slot, "fac_kingdom_8",  slot_faction_culture, "fac_culture_2"),
+      (faction_set_slot, "fac_kingdom_9",  slot_faction_culture, "fac_culture_3"),
+      (faction_set_slot, "fac_kingdom_10",  slot_faction_culture, "fac_culture_4"),
+      (faction_set_slot, "fac_kingdom_11",  slot_faction_culture, "fac_culture_5"),
+      (faction_set_slot, "fac_kingdom_12",  slot_faction_culture, "fac_culture_6"),
+      #Eagle      
 	  
       (assign, ":player_faction_culture", "fac_culture_1"),
       (faction_set_slot, "fac_player_supporters_faction",  slot_faction_culture, ":player_faction_culture"),
@@ -436,7 +470,10 @@ scripts = [
       (faction_set_slot, "fac_kingdom_5", slot_faction_banner, "mesh_banner_kingdom_d"),
       (faction_set_slot, "fac_kingdom_6", slot_faction_banner, "mesh_banner_kingdom_e"),
 
-      (try_for_range, ":cur_faction", npc_kingdoms_begin, npc_kingdoms_end),
+      #(try_for_range, ":cur_faction", npc_kingdoms_begin, npc_kingdoms_end),
+      #Eagle
+      (try_for_range, ":cur_faction", npc_kingdoms_begin, rebel_factions_begin),
+      #Eagle
         (faction_get_slot, ":cur_faction_king", ":cur_faction", slot_faction_leader),
         (faction_get_slot, ":cur_faction_banner", ":cur_faction", slot_faction_banner),
         (val_sub, ":cur_faction_banner", banner_meshes_begin),
@@ -868,18 +905,18 @@ scripts = [
        (try_for_range, ":town_no", towns_begin, towns_end),
             (party_set_slot, ":town_no", slot_center_volunteer_troop_a_amount_town, -1),
        (try_end), #Removes the ability to recruit elite troops at the beginning of the game due to the conditions of the update troops script.
-#       (party_add_members, "p_main_party", "trp_swadian_elit_troop_a", 1),
-#       (party_add_members, "p_main_party", "trp_swadian_elit_troop_b", 1),
-#       (party_add_members, "p_main_party", "trp_vaegir_elit_troop_a", 1),
-#       (party_add_members, "p_main_party", "trp_vaegir_elit_troop_b", 1),
-#       (party_add_members, "p_main_party", "trp_rhodok_elit_troop_a", 1),
-#       (party_add_members, "p_main_party", "trp_rhodok_elit_troop_b", 40),
-#       (party_add_members, "p_main_party", "trp_khergit_elit_troop_a", 1),
-#       (party_add_members, "p_main_party", "trp_khergit_elit_troop_b", 1),
-#       (party_add_members, "p_main_party", "trp_nord_elit_troop_a", 1),
-#        (party_add_members, "p_main_party", "trp_nord_elit_troop_b", 40),
-#        (party_add_members, "p_main_party", "trp_sarranid_elit_troop_a", 1),
-#        (party_add_members, "p_main_party", "trp_sarranid_elit_troop_b", 1),
+       (party_add_members, "p_main_party", "trp_swadian_elit_troop_a", 1.),
+      (party_add_members, "p_main_party", "trp_swadian_elit_troop_b", 1),
+       (party_add_members, "p_main_party", "trp_vaegir_elit_troop_a", 1),
+       (party_add_members, "p_main_party", "trp_vaegir_elit_troop_b", 1),
+       (party_add_members, "p_main_party", "trp_rhodok_elit_troop_a", 1),
+       (party_add_members, "p_main_party", "trp_rhodok_elit_troop_b", 1),
+       (party_add_members, "p_main_party", "trp_khergit_elit_troop_a", 1),
+       (party_add_members, "p_main_party", "trp_khergit_elit_troop_b", 1),
+       (party_add_members, "p_main_party", "trp_nord_elit_troop_a", 50),
+        (party_add_members, "p_main_party", "trp_nord_elit_troop_b", 1),
+        (party_add_members, "p_main_party", "trp_sarranid_elit_troop_a", 1),
+        (party_add_members, "p_main_party", "trp_sarranid_elit_troop_b", 1),
 #Eagle
 	  
       (try_for_range, ":cur_kingdom", kingdoms_begin, kingdoms_end),
@@ -920,6 +957,15 @@ scripts = [
 	  (faction_set_slot, "fac_kingdom_4", slot_faction_adjective, "str_kingdom_4_adjective"),
 	  (faction_set_slot, "fac_kingdom_5", slot_faction_adjective, "str_kingdom_5_adjective"),
 	  (faction_set_slot, "fac_kingdom_6", slot_faction_adjective, "str_kingdom_6_adjective"),
+
+          #Eagle
+          (faction_set_slot, "fac_kingdom_7", slot_faction_adjective, "str_kingdom_1_adjective"),
+          (faction_set_slot, "fac_kingdom_8", slot_faction_adjective, "str_kingdom_2_adjective"),
+	  (faction_set_slot, "fac_kingdom_9", slot_faction_adjective, "str_kingdom_3_adjective"),
+          (faction_set_slot, "fac_kingdom_10", slot_faction_adjective, "str_kingdom_4_adjective"),
+          (faction_set_slot, "fac_kingdom_11", slot_faction_adjective, "str_kingdom_5_adjective"),
+          (faction_set_slot, "fac_kingdom_12", slot_faction_adjective, "str_kingdom_6_adjective"),
+          #Eagle
 	  
 ##      (assign, "$players_kingdom", "fac_kingdom_1"),
 ##      (call_script, "script_give_center_to_lord", "p_town_7", "trp_player", 0),
@@ -928,6 +974,14 @@ scripts = [
 ##      (assign, "$g_castle_requested_by_player", "p_castle_10"),
       (call_script, "script_get_player_party_morale_values"),
       (party_set_morale, "p_main_party", reg0),
+
+      #Eagle
+      (try_for_range, ":rebel_faction", rebel_factions_begin, rebel_factions_end),
+           (faction_set_slot, ":rebel_faction", slot_faction_number_of_parties, 0),
+           (faction_set_slot, ":rebel_faction", slot_faction_state, sfs_inactive),
+           (faction_set_note_available, ":rebel_faction", 0),
+     (try_end),
+      #Eagle
 
       (troop_set_note_available, "trp_player", 1),
 
@@ -19694,6 +19748,9 @@ scripts = [
 #rebellion changes begin -Arma
      (try_for_range, ":pretender", pretenders_begin, pretenders_end),
         (neq, ":pretender", "$supported_pretender"),
+        #Eagle
+        (neg|troop_slot_eq, ":pretender", slot_troop_occupation, slto_kingdom_hero),
+        #Eagle
         (troop_slot_eq, ":pretender", slot_troop_cur_center, ":center_no"),
         (party_add_members, ":party_no_to_collect_heroes", ":pretender", 1),
      (try_end),
@@ -20125,6 +20182,9 @@ scripts = [
         (str_store_troop_name_plural, s0, ":troop_no"),
         (troop_get_type, ":gender", ":troop_no"),
         (store_sub, ":title_index", ":faction_no", kingdoms_begin),
+        #Eagle
+        (val_mod, ":title_index", 6), #Applies correct title to rebel lords
+        #Eagle
         (try_begin),
           (eq, ":gender", 0), #male
           (val_add, ":title_index", kingdom_titles_male_begin),
@@ -20793,34 +20853,20 @@ scripts = [
         (store_script_param_1, ":party_no"),
 
         (party_get_slot, ":party_type",":party_no", slot_party_type),
-        (party_stack_get_troop_id, ":leader", ":party_no"),
         (try_begin),
-            (eq, ":leader", "trp_player"), #player party
-            (assign, ":total_amount", 0),
-            (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end), #It has to be changed when inplementing the rebellion scripts
-                (faction_get_slot, ":elit_troop_a", ":faction_no", slot_faction_special_troop_a),
-                (faction_get_slot, ":elit_troop_b", ":faction_no", slot_faction_special_troop_b),
-                (party_count_members_of_type, ":amount_a", ":party_no", ":elit_troop_a"),
-                (party_count_members_of_type, ":amount_b", ":party_no", ":elit_troop_b"),
-                (val_add, ":total_amount", ":amount_a"),
-                (val_add, ":total_amount", ":amount_b"),
-            (try_end),
-            (assign, reg0, ":total_amount"),
+            (eq, ":party_type", spt_kingdom_hero_party),
+            (party_stack_get_troop_id, ":leader", ":party_no"),
+            (troop_get_slot, ":party_faction",  ":leader", slot_troop_original_faction),
         (else_try),
-            (try_begin),
-                (eq, ":party_type", spt_kingdom_hero_party), #lord party
-                (troop_get_slot, ":party_faction",  ":leader", slot_troop_original_faction),
-            (else_try), #town
-                (party_get_slot, ":town_lord", ":party_no", slot_town_lord),           
-                (troop_get_slot, ":party_faction",  ":town_lord", slot_troop_original_faction),
-            (try_end),
-            (faction_get_slot, ":elit_troop_a", ":party_faction", slot_faction_special_troop_a),
-            (faction_get_slot, ":elit_troop_b", ":party_faction", slot_faction_special_troop_b),
-            (party_count_members_of_type, ":amount_a", ":party_no", ":elit_troop_a"),
-            (party_count_members_of_type, ":amount_b", ":party_no", ":elit_troop_b"),
-            (store_add, ":total_elit_troops_amount", ":amount_a", ":amount_b"),
-            (assign, reg0, ":total_elit_troops_amount"),
+            (party_get_slot, ":town_lord", ":party_no", slot_town_lord),           
+            (troop_get_slot, ":party_faction",  ":town_lord", slot_troop_original_faction),
         (try_end),
+        (faction_get_slot, ":elit_troop_a", ":party_faction", slot_faction_special_troop_a),
+        (faction_get_slot, ":elit_troop_b", ":party_faction", slot_faction_special_troop_b),
+        (party_count_members_of_type, ":amount_a", ":party_no", ":elit_troop_a"),
+        (party_count_members_of_type, ":amount_b", ":party_no", ":elit_troop_b"),
+        (store_add, ":total_elit_troops_amount", ":amount_a", ":amount_b"),
+        (assign, reg0, ":total_elit_troops_amount"),
     ]),
 
 
@@ -21241,20 +21287,6 @@ scripts = [
         (party_remove_members, ":party_no", "trp_cattle", ":amount"),
       (try_end),
       ]),
-#Eagle
-
-#    ("auto_inventory_item_triage",
-#     [
-#       (troop_get_inventory_capacity, ":end_cond", "trp_player"), #troop no can come -1 here error occured at friday
-#       (assign, reg0, ":end_cond"),
-#       (display_message,"@There are {reg0} slot in your inventory."),
-#       (try_for_range, ":i_slot", 0, ":end_cond"),
-#         (troop_get_inventory_slot, ":item_id", "trp_player", ":i_slot"),
-#         (ge, ":item_id", 0),
-#         (str_store_item_name, s9, ":item_id"),
-#         (display_message,"@You got {s9}."),
-#       (try_end),
-#     ]),
         
   # script_create_kingdom_hero_party
   # Input: arg1 = troop_no, arg2 = center_no
@@ -29518,24 +29550,58 @@ scripts = [
     (eq, ":end_trigger", 1),
   ]),
 
+#Eagle - Fix for archer spawn in siege battle. Thanks to Abhuva and Treebeard
   # script_siege_move_archers_to_archer_positions
   # Input: none
   # Output: none
-  ("siege_move_archers_to_archer_positions",
+("siege_move_archers_to_archer_positions",
    [
      (try_for_agents, ":agent_no"),
        (agent_is_alive, ":agent_no"),
-       (agent_slot_eq, ":agent_no", slot_agent_is_not_reinforcement, 0),
+       (agent_slot_eq, ":agent_no", slot_agent_is_not_reinforcement, 0), #Note: could be changed from eq 0 to lt 1 to fix an issue if there was one here.
        (agent_is_defender, ":agent_no"),
        (agent_get_class, ":agent_class", ":agent_no"),
-       (agent_get_troop_id, ":agent_troop", ":agent_no"),
-       (eq, ":agent_class", grc_archers),
+       #(agent_get_troop_id, ":agent_troop", ":agent_no"),
+       (eq, ":agent_class", grc_archers),             
+               (agent_get_position, pos0, ":agent_no"), #JL PoP 3.4: new code for determining the position of the current archer.
+               (assign, ":danger_to_cur_archer", 0), #JL PoP 3.4: added a flag for dangers to the defender current archer agent
+             
+               #JL PoP 3.4: new code for determining enemy nearest agent position and assigning danger variable relative to current defender archer agent:
+
+               (try_for_agents, ":enemy_agent"), #go through all agents again .. (n^2)
+                         (agent_is_alive, ":enemy_agent"),
+                         (agent_is_human, ":enemy_agent"), # added this just in case ...
+                         (neg|agent_is_defender, ":enemy_agent"), #agent is attacker
+                         (agent_get_class, ":enemy_agent_class", ":enemy_agent"),
+                         (agent_get_position, pos1, ":enemy_agent"),       
+                         (get_distance_between_positions, ":distance_to_enemy_agent", pos0, pos1), #compare current archer distance to current enemy agent distance
+
+                                    (try_begin), #if the enemy agent is an archer then there is danger if he is within 50m range
+                                                (eq, ":enemy_agent_class", grc_archers),
+                                                (agent_get_ammo,":ammo_count",":enemy_agent", 1), #count the ammo of the enemy's wielded weapon
+                                                (gt, ":ammo_count", 0), #if the enemy has ammo for its wielded weapon and
+                                                (lt, ":distance_to_enemy_agent", 750), #less than 7.5 m means danger changed by Abhuva
+                                                (assign, ":danger_to_cur_archer", 1), #a break from loop would be good after this line ...
+
+                                    (else_try), #otherwise there is a danger if a non-archer is within 15 m range
+                                                (lt, ":distance_to_enemy_agent", 750), #less than 7.5 m means danger, changed by Abhuva
+                                                (assign, ":danger_to_cur_archer", 1), #a break from loop would be good after this line ...
+
+                                    (try_end),                     
+
+               (try_end),
+
+               #End of additional code for PoP 3.4
+                     
        (try_begin),
          (agent_slot_eq, ":agent_no", slot_agent_target_entry_point, 0),
          (store_random_in_range, ":random_entry_point", 40, 44),
          (agent_set_slot, ":agent_no", slot_agent_target_entry_point, ":random_entry_point"),
+
        (try_end),
+
        (try_begin),
+
          (agent_get_position, pos0, ":agent_no"),
          (entry_point_get_position, pos1, ":random_entry_point"),
          (get_distance_between_positions, ":dist", pos0, pos1),
@@ -29543,35 +29609,38 @@ scripts = [
          (agent_clear_scripted_mode, ":agent_no"),
          (agent_set_slot, ":agent_no", slot_agent_is_in_scripted_mode, 0),
          (agent_set_slot, ":agent_no", slot_agent_is_not_reinforcement, 1),
-         (str_store_troop_name, s1, ":agent_troop"),
-         (assign, reg0, ":agent_no"),
-#         (display_message, "@{s1} ({reg0}) reached pos"),
+
        (else_try),
+
          (agent_get_simple_behavior, ":agent_sb", ":agent_no"),
-         (agent_get_combat_state, ":agent_cs", ":agent_no"),
+         #(agent_get_combat_state, ":agent_cs", ":agent_no"), #JL Pop 3.303: commented out because of the line that is also commented out below.
+
          (this_or_next|eq, ":agent_sb", aisb_ranged),
          (eq, ":agent_sb", aisb_go_to_pos),#scripted mode
-         (eq, ":agent_cs", 7), # 7 = no visible targets (state for ranged units)
+         (eq, ":danger_to_cur_archer", 0), #JL PoP 3.303: added a danger flag to relace combat state flag, since combat state is unknown for "visible target".
+         #(eq, ":agent_cs", 7), # 7 = no visible targets (state for ranged units) <-- commented out because this seems to not be the right value ... Abhuva PoP 3.303
+
          (try_begin),
            (agent_slot_eq, ":agent_no", slot_agent_is_in_scripted_mode, 0),
            (agent_set_scripted_destination, ":agent_no", pos1, 0),
-           (agent_set_slot, ":agent_no", slot_agent_is_in_scripted_mode, 1),
-           (str_store_troop_name, s1, ":agent_troop"),
-           (assign, reg0, ":agent_no"),
-#           (display_message, "@{s1} ({reg0}) moving to pos"),
+           (agent_set_slot, ":agent_no", slot_agent_is_in_scripted_mode, 1),     
          (try_end),
-       (else_try),
+
+   (else_try),
+
          (try_begin),
-           (agent_slot_eq, ":agent_no", slot_agent_is_in_scripted_mode, 1),
-           (agent_clear_scripted_mode, ":agent_no"),
-           (agent_set_slot, ":agent_no", slot_agent_is_in_scripted_mode, 0),
-           (str_store_troop_name, s1, ":agent_troop"),
-           (assign, reg0, ":agent_no"),
-#           (display_message, "@{s1} ({reg0}) seeing target or changed mode"),
-         (try_end),
+             (agent_slot_eq, ":agent_no", slot_agent_is_in_scripted_mode, 1),
+             (agent_clear_scripted_mode, ":agent_no"),
+             (agent_set_slot, ":agent_no", slot_agent_is_in_scripted_mode, 0),
+          (try_end),
+
        (try_end),
+         
+
      (try_end),
+
      ]),
+  #Eagle
 
 
   # script_store_movement_order_name_to_s1
@@ -38310,6 +38379,27 @@ scripts = [
   ("get_culture_with_faction_for_music",
     [
       (store_script_param, ":faction_no", 1),
+     #Eagle
+     (try_begin),
+      (eq, ":faction_no", "fac_kingdom_7"),
+      (assign, ":faction_no", "fac_kingdom_1"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_8"),
+      (assign, ":faction_no", "fac_kingdom_2"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_9"),
+      (assign, ":faction_no", "fac_kingdom_3"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_10"),
+      (assign, ":faction_no", "fac_kingdom_4"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_11"),
+      (assign, ":faction_no", "fac_kingdom_5"),
+     (else_try),
+      (eq, ":faction_no", "fac_kingdom_12"),
+      (assign, ":faction_no", "fac_kingdom_6"),
+     (try_end),
+      #Eagle
       (try_begin),
         (eq, ":faction_no", "fac_kingdom_1"),
         (assign, ":result", mtf_culture_1),
@@ -48019,5 +48109,298 @@ scripts = [
       (assign, reg0, ":total_equipment_cost"),
      ]),
      ###
+
+#Eagle
+        # script_rebelion_assesment
+  # Script Assess the faction for revolt 
+  # Input: arg1 = faction
+  # Output: none
+  ("rebelion_assesment",
+   [
+        (store_script_param_1, ":orig_faction"),
+        (store_script_param_2, ":rebel_faction"),
+
+        (assign, ":at_war_count", 0),
+        (assign, ":rebellion_chance", 0),
+
+        (call_script, "script_evaluate_realm_stability", ":orig_faction"),
+        (assign, ":instability_index", reg0),
+        (val_add, ":instability_index", reg0),
+        (val_add, ":instability_index", reg1),                                           
+        (try_begin),
+            (gt, ":instability_index", 60),
+            # HEAVY FACTION FRACTURING  #
+            (assign, ":rebellion_chance", 4),
+        (else_try), 
+            (is_between, ":instability_index", 40, 60),
+            # MODERATE FACTION FRACTURING   #   
+            (assign, ":rebellion_chance", 3),
+        (else_try), 
+            (is_between, ":instability_index", 20, 40),
+            # LIGHT FACTION FRACTURING  #   
+            (assign, ":rebellion_chance", 2),
+        (else_try), 
+            (lt, ":instability_index", 20),
+            # NO FACTION FRACTURING     #
+            (assign, ":rebellion_chance", 1),
+        (try_end),
+        (try_for_range, ":faction_no", kingdoms_begin, kingdoms_end),
+          (neq, ":orig_faction", ":faction_no"),
+          (call_script, "script_diplomacy_faction_get_diplomatic_status_with_faction", ":orig_faction", ":faction_no"),
+          (assign, ":global_diplomatic_status", reg0),
+          (try_begin), # War
+              (eq, ":global_diplomatic_status", -2),
+              (val_add, ":at_war_count", 1),
+              (val_add, ":rebellion_chance", 1),
+          (try_end),            
+        (try_end),
+
+        (faction_set_slot, ":orig_faction", slot_faction_instability, ":instability_index"),
+        (faction_set_slot, ":rebel_faction", slot_faction_has_rebellion_chance, ":rebellion_chance"),
+   ]
+  ),
+
+  # script_start_claimant_rebellion
+  # Script starts the rebellion for claimant
+  # Input: arg1 = orig_faction, arg2 = rebel_center, arg3 = rebel_lord, arg5 = rebel_faction, arg6 = rebel_claimed
+  # Output: none
+  ("start_claimant_rebellion",
+   [
+        (store_script_param_1, ":orig_faction"),
+        (store_script_param_2, ":rebel_center"),
+        (store_script_param, ":rebel_lord", 3),
+        (store_script_param, ":rebel_faction", 4),
+        (store_script_param, ":rebel_claimed", 5),
+
+        (troop_set_slot, ":rebel_lord", slot_troop_home, ":rebel_center"),
+        (troop_set_slot, ":rebel_lord", slot_troop_wealth, 100000),
+        (store_random_in_range, ":renown", 850, 1200),
+        (troop_set_slot, ":rebel_lord", slot_troop_renown, ":renown"),
+
+        (faction_set_slot, ":rebel_faction", slot_faction_state, sfs_active),
+        (faction_set_slot, ":rebel_faction", slot_faction_number_of_parties, 1),
+        (troop_set_slot, ":rebel_lord", slot_troop_occupation, slto_kingdom_hero),
+        (faction_set_slot, ":rebel_faction",  slot_faction_leader, ":rebel_lord"),
+
+        (troop_set_slot, ":rebel_lord", slot_troop_cur_center, 0), #removes pretender from the map
+
+        (faction_set_note_available, ":rebel_faction", 1),
+        (call_script, "script_change_troop_faction", ":rebel_lord", ":rebel_faction"),
+
+        (call_script, "script_create_kingdom_hero_party", ":rebel_lord", ":rebel_center"),
+        
+        (troop_get_slot, ":rebel_lord_party", ":rebel_lord", slot_troop_leaded_party),
+        (str_store_troop_name, s5, ":rebel_lord"),
+        (party_set_name, ":rebel_lord_party", "str_s5_s_party"),
+        
+        (call_script, "script_diplomacy_start_war_between_kingdoms", ":rebel_faction", ":orig_faction", 1),
+        
+        (faction_get_slot, ":faction_king", ":orig_faction", slot_faction_leader),
+        (store_random_in_range, ":relation", -30, -5),
+        (call_script, "script_troop_change_relation_with_troop", ":rebel_lord", ":faction_king", ":relation"),  
+        (call_script, "script_troop_change_relation_with_troop", ":faction_king", ":rebel_lord", ":relation"),  
+        (call_script, "script_give_center_to_lord", ":rebel_center",  ":rebel_lord", 0),
+
+        (party_set_slot, ":rebel_claimed", slot_center_ex_faction, ":rebel_faction"), #Sets a rebel claim on another center in the old faction
+        
+        (call_script, "script_rebellion_start", ":orig_faction", ":rebel_faction", ":rebel_center"),    
+   ]
+  ),
+
+
+  # script_rebellion_start
+  # Script starts the rebellion for the supplied rebel faction   
+  # Input: arg1 = orig_faction, arg2 = rebel_faction, arg3 = rebel_center
+  # Output: none
+  ("rebellion_start",
+   [
+        (store_script_param, ":orig_faction", 1),
+        (store_script_param, ":rebel_faction", 2),
+        (store_script_param, ":rebel_center", 3),
+
+       (faction_get_slot, ":faction_instability", ":orig_faction", slot_faction_instability),
+       (assign, ":no_of_faction_lords", 0),
+       
+       (try_for_range, ":troop_no", lords_begin, lords_end),
+            (store_troop_faction, ":lord_faction", ":troop_no"),
+            (eq , ":lord_faction", ":orig_faction"),
+            (val_add, ":no_of_faction_lords", 1),
+       (try_end),
+       
+       (try_begin),
+            (ge, ":faction_instability", 50),
+            (store_div, ":lord_defection_no", ":no_of_faction_lords", 2),
+            (store_div, ":lord_defection_contraversy", ":lord_defection_no", 2),
+            (store_sub, ":lord_defection_relation", ":lord_defection_no", ":lord_defection_contraversy"),  
+       (else_try),
+            (le, ":faction_instability", 49),
+            (store_div, ":lord_defection_no", ":no_of_faction_lords", 3),
+            (store_div, ":lord_defection_contraversy", ":lord_defection_no", 2),
+            (store_sub, ":lord_defection_relation", ":lord_defection_no", ":lord_defection_contraversy"),
+       (try_end),
+       
+       ## BEGIN LORD DEFECTIONS TO REBELS
+       (try_for_range, ":defected_count", 0, ":lord_defection_contraversy"),
+            (call_script, "script_rebellion_get_lord_highest_controversy_in_faction", ":orig_faction", ":rebel_faction"),
+            (val_add, ":defected_count", 1),
+       (try_end),
+       
+       (assign, ":defected_count", 0),
+       (try_for_range, ":defected_count", 0, ":lord_defection_relation"),
+            (call_script, "script_rebellion_get_lord_lowest_relation_in_faction", ":orig_faction", ":rebel_faction"),
+            (val_add, ":defected_count", 1),
+       (try_end),
+       ## END LORD DEFECTIONS TO REBELS 
+
+        (assign, "$g_recalculate_ais", 1),
+       
+        (faction_get_slot, ":rebel_king", ":rebel_faction", slot_faction_leader),   
+        (str_store_faction_name, s52, ":rebel_faction"),
+        (assign, reg52, ":lord_defection_no"),
+        (str_store_troop_name, s53, ":rebel_king"),
+        (str_store_party_name, s54, ":rebel_center"),
+        (dialog_box, "@A messenger finds you and informs you that {s53} has rebelled and the loyal city of {s54} is now the new capital of {s52}. The rebellion is strengthened by {reg52} lords who defected and joined {s52} .", "@{s52}: REBELLION"),
+        (call_script, "script_appoint_faction_marshall", ":rebel_faction", ":rebel_king"),
+     ]),
+
+#script_rebellion_get_lord_highest_controversy_in_faction
+  # Script Get the lord of the specified faction with the highest contraversy 
+  # Input: arg1 = orig_faction, arg2 = rebel_faction
+  # Output: reg0 = lord_no
+  ("rebellion_get_lord_highest_controversy_in_faction",
+    [
+        (store_script_param_1, ":orig_faction"),
+        (store_script_param_2, ":rebel_faction"),
+        (assign, ":controversy", 0),
+        (assign, ":lord_no", 0),
+        (assign, ":troop_no", 0),
+        (assign, ":was_marshall", 0),
+        (try_for_range, ":troop_no", lords_begin, lords_end),
+            (store_troop_faction, ":lord_faction", ":troop_no"),
+            (eq , ":lord_faction", ":orig_faction"),
+            (troop_get_slot, ":lord_controversy", ":troop_no", slot_troop_controversy),
+            (try_begin),
+                (gt, ":lord_controversy", ":controversy"),
+                (assign, ":controversy", ":lord_controversy"),
+                (assign, ":lord_no", ":troop_no"),
+            (try_end),
+        (try_end),
+        (try_begin),
+            (try_begin),
+                (faction_slot_eq, ":orig_faction", slot_faction_marshall, ":lord_no"),
+                (assign, ":was_marshall", 1),
+            (try_end),
+            (neq, ":lord_no", "trp_player"),
+            (call_script, "script_change_troop_faction", ":lord_no", ":rebel_faction"),
+            (faction_get_slot, ":party_no", ":rebel_faction", slot_faction_number_of_parties),
+            (val_add, ":party_no", 1),
+            (faction_set_slot, ":rebel_faction", slot_faction_number_of_parties, ":party_no"),
+
+            (faction_get_slot, ":party_no", ":orig_faction", slot_faction_number_of_parties),
+            (val_sub, ":party_no", 1),
+            (faction_set_slot, ":orig_faction", slot_faction_number_of_parties, ":party_no"),
+        
+        #Strings
+            (faction_get_slot, ":orig_leader", ":orig_faction", slot_faction_leader),
+            (str_store_troop_name, s2, ":orig_leader"),
+
+            (faction_get_slot, ":rebel_leader", ":rebel_faction", slot_faction_leader),
+            (str_store_troop_name, s4, ":rebel_leader"),
+        
+            (troop_get_type, reg4, ":lord_no"),
+            (str_store_troop_name, s1, ":lord_no"), 
+            (str_store_faction_name, s3, ":orig_faction"),
+        
+            (try_begin),
+                (eq, ":was_marshall", 1),       
+                (str_store_string, s5, "str_lord_defects_marshall", 0xFF0000),
+                (display_log_message, "@{!}{s5}"),
+            (else_try),
+                (str_store_string, s5, "str_lord_defects_rebel"),
+                (display_log_message, "@{!}{s5}"),
+            (try_end),
+        #Strings
+             
+            (call_script, "script_troop_change_relation_with_troop", ":lord_no", ":orig_leader", -10), 
+            (call_script, "script_troop_change_relation_with_troop", ":orig_leader", ":lord_no", -20),
+               
+            (call_script, "script_troop_change_relation_with_troop", ":lord_no", ":rebel_leader", 10),    
+            (call_script, "script_troop_change_relation_with_troop", ":rebel_leader", ":lord_no", 20),
+        (try_end),
+        (troop_set_slot, ":lord_no", slot_troop_controversy, 15),
+        (assign, reg0, ":lord_no"),
+    ]
+  ),
+
+#script_rebellion_get_lord_lowest_relation_in_faction
+  # Script Get the lord of the specified faction with the lowest relation to their liege   
+  # Input: arg1 = orig_faction, arg2 = rebel_faction
+  # Output: reg0 = lord_no
+  ("rebellion_get_lord_lowest_relation_in_faction",
+    [
+        (store_script_param_1, ":orig_faction"),
+        (store_script_param_2, ":rebel_faction"),
+        (assign, ":relation", 100),
+        (assign, ":troop_no", 0),
+        (faction_get_slot, ":faction_king", ":orig_faction", slot_faction_leader),
+        (try_for_range, ":troop_no", lords_begin, lords_end),
+            (store_troop_faction, ":lord_faction", ":troop_no"),
+            (eq , ":lord_faction", ":orig_faction"),
+            (call_script, "script_troop_get_relation_with_troop", ":troop_no", ":faction_king"),
+            (assign, ":relation_with_king", reg0),  
+            (try_begin),
+                (eq , ":orig_faction", ":lord_faction"),
+                (le, ":relation_with_king", ":relation"),
+                (assign, ":relation", ":relation_with_king"),
+                (assign, ":lord_no", ":troop_no"),
+            (try_end),
+        (try_end),
+
+        (try_begin),        
+            (neq, ":lord_no", "trp_player"),
+            (try_begin),
+                (faction_slot_eq, ":orig_faction", slot_faction_marshall, ":lord_no"),
+                (assign, ":was_marshall", 1),
+            (try_end),
+            (call_script, "script_change_troop_faction", ":lord_no", ":rebel_faction"),
+            (faction_get_slot, ":party_no", ":rebel_faction", slot_faction_number_of_parties),
+            (val_add, ":party_no", 1),
+            (faction_set_slot, ":rebel_faction", slot_faction_number_of_parties, ":party_no"),
+
+            (faction_get_slot, ":party_no", ":orig_faction", slot_faction_number_of_parties),
+            (val_sub, ":party_no", 1),
+            (faction_set_slot, ":orig_faction", slot_faction_number_of_parties, ":party_no"),
+            
+        #Strings
+            (faction_get_slot, ":orig_leader", ":orig_faction", slot_faction_leader),
+            (str_store_troop_name, s2, ":orig_leader"),
+
+            (faction_get_slot, ":rebel_leader", ":orig_faction", slot_faction_leader),
+            (str_store_troop_name, s4, ":rebel_leader"),
+        
+            (troop_get_type, reg4, ":lord_no"),
+            (str_store_troop_name, s1, ":lord_no"), 
+            (str_store_faction_name, s3, ":orig_faction"),
+        
+            (try_begin),
+                (eq, ":was_marshall", 1),
+                (str_store_faction_name, s2, ":rebel_faction"),        
+                (str_store_string, s5, "str_lord_defects_marshall", 0xFF0000),
+                (display_log_message, "@{!}{s5}"),
+            (else_try),
+                (str_store_string, s5, "str_lord_defects_rebel"),
+                (display_log_message, "@{!}{s5}"),
+            (try_end),
+        #Strings
+             
+            (call_script, "script_troop_change_relation_with_troop", ":lord_no", ":orig_leader", -10), 
+            (call_script, "script_troop_change_relation_with_troop", ":orig_leader", ":lord_no", -20),
+               
+            (call_script, "script_troop_change_relation_with_troop", ":lord_no", ":rebel_leader", 10),    
+            (call_script, "script_troop_change_relation_with_troop", ":rebel_leader", ":lord_no", 20),
+        (try_end),
+        (troop_set_slot, ":lord_no", slot_troop_controversy, 15),
+        (assign, reg0, ":lord_no"),
+    ]),
 
 ]

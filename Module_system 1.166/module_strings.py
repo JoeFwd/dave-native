@@ -4092,4 +4092,17 @@ We apologize sincerely if you contributed your suggestions and feedback but were
   ("ranged_weapons_are_disallowed", "Ranged weapons are disallowed."),
   ("ranged_weapons_are_allowed", "Ranged weapons are allowed."),
   ("duel_starts_in_reg0_seconds", "Duel starts in {reg0} seconds..."),
+    #Eagle
+  #KAOS  (POLITICAL)
+  ("lord_defects_rebel", "{s1} joined the rebellion!"),
+  ("lord_defects_marshall", "{s1} Marshall of {s3} has denounced {s2} right to rule {s3}, and pledged allegiance to {s4} as the rightful ruler"),
+
+  ("kaos_swadia_king", "Kingdom of Swadia"),
+  ("kaos_Vaegirs_king", "Kingdom of Vaegirs"),
+  ("kaos_Khergit_king", "Khergit Khanate"),
+  ("kaos_Nords_king", "Kingdom of Nords"),
+  ("kaos_Rhodoks_king", "Kingdom of Rhodoks"),
+  ("kaos_Sarranid_king", "Sarranid Sultanate"),
+  #KAOS  (POLITICAL)
+  #Eagle
 ]

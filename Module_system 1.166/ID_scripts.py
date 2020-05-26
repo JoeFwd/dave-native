@@ -576,5 +576,10 @@ script_refresh_center_armories = 574
 script_refresh_center_weaponsmiths = 575
 script_refresh_center_stables = 576
 script_player_get_value_of_original_items = 577
+script_rebelion_assesment = 578
+script_start_claimant_rebellion = 579
+script_rebellion_start = 580
+script_rebellion_get_lord_highest_controversy_in_faction = 581
+script_rebellion_get_lord_lowest_relation_in_faction = 582
 
 
