@@ -72,5 +72,12 @@ track_victorious_vaegir = 70
 track_victorious_vaegir_2 = 71
 track_wedding = 72
 track_coronation = 73
+track_CHUR_travel_nord = 74
+track_CHUR_travel_vaegir = 75
+track_CHUR_travel_calradia = 76
+track_CHUR_tavern_calradia = 77
+track_CHUR_swadian_infantry = 78
+track_CHUR_castle_hall = 79
+track_CHUR_born_in_calradia = 80
 
 

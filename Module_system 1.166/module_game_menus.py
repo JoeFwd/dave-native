@@ -5962,6 +5962,9 @@ game_menus = [
         (try_begin),
           (party_slot_eq, "$g_encountered_party", slot_center_is_besieged_by, -1),
           (party_set_slot, "$g_encountered_party", slot_center_is_besieged_by, "p_main_party"),
+        # LAV MODIFICATIONS START (SIEGE CAMP ICON MINI-MOD)
+          (party_set_extra_icon, "$g_encountered_party", "icon_castle_besieged", 0, 0, 0, 0),
+        # LAV MODIFICATIONS END (SIEGE CAMP ICON MINI-MOD)
           (store_current_hours, ":cur_hours"),
           (party_set_slot, "$g_encountered_party", slot_center_siege_begin_hours, ":cur_hours"),
           (assign, "$g_siege_method", 0),

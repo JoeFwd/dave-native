@@ -124,8 +124,13 @@ tracks = [
   ("wedding", "wedding.ogg", mtf_persist_until_finished, 0),
 
   ("coronation", "coronation.ogg", mtf_persist_until_finished, 0),
-
-
+        ("CHUR_travel_nord",    "CHUR_Nords_traveling.ogg",    mtf_culture_4|mtf_sit_travel, mtf_sit_town|mtf_sit_tavern|mtf_sit_night|mtf_culture_all|mtf_module_track),
+        ("CHUR_travel_vaegir",  "CHUR_Vaegirs_traveling.ogg",  mtf_culture_2|mtf_sit_travel, mtf_sit_town|mtf_sit_tavern|mtf_sit_night|mtf_culture_all|mtf_module_track),
+        ("CHUR_travel_calradia",  "CHUR_Calradia_traveling.ogg",  mtf_sit_travel, mtf_sit_town|mtf_sit_tavern|mtf_sit_night|mtf_culture_all|mtf_module_track),
+        ("CHUR_tavern_calradia",  "CHUR_Tavern_in_Calradia.ogg",  mtf_sit_travel, mtf_sit_town|mtf_sit_tavern|mtf_sit_night|mtf_culture_all|mtf_module_track),
+        ("CHUR_swadian_infantry",  "CHUR_Swadian_infantry.ogg",  mtf_sit_travel, mtf_sit_town|mtf_sit_tavern|mtf_sit_night|mtf_culture_all|mtf_module_track),
+        ("CHUR_castle_hall",  "CHUR_Castle_Hall.ogg",  mtf_sit_travel, mtf_sit_town|mtf_sit_tavern|mtf_sit_night|mtf_culture_all|mtf_module_track),
+        ("CHUR_born_in_calradia",  "CHUR_Born_in_Calradia.ogg",  mtf_sit_travel, mtf_sit_town|mtf_sit_tavern|mtf_sit_night|mtf_culture_all|mtf_module_track),
 
   
 ]

@@ -20017,6 +20017,9 @@ scripts = [
 	    (party_get_slot, ":besieged_by", ":center_no", slot_center_is_besieged_by),
 	    (eq, ":besieged_by", ":troop_party"),
 	    (party_set_slot, ":center_no", slot_center_is_besieged_by, -1),
+      # LAV MODIFICATIONS START (SIEGE CAMP ICON MINI-MOD)
+            (party_set_extra_icon, ":center_no", 0, 0, 0, 0, 0),
+      # LAV MODIFICATIONS END (SIEGE CAMP ICON MINI-MOD)
 	    (try_begin),	    
 	      (party_slot_eq, ":center_no", slot_village_state, svs_under_siege),	      
 	      (party_set_slot, ":center_no", slot_village_state, svs_normal),
@@ -21689,6 +21692,9 @@ scripts = [
                (lt, ":distance", 4),
                (assign, ":besieger_party", ":enemy_party"),
                (party_set_slot, ":center_no", slot_center_is_besieged_by, ":enemy_party"),
+        # LAV MODIFICATIONS START (SIEGE CAMP ICON MINI-MOD)
+               (party_set_extra_icon, ":center_no", "icon_castle_besieged", 0, 0, 0, 0),
+        # LAV MODIFICATIONS END (SIEGE CAMP ICON MINI-MOD)
                (assign, ":siege_lifted", 0),
              (try_end),
            (try_end),
@@ -21726,6 +21732,9 @@ scripts = [
       (store_script_param, ":center_no", 1),
       (store_script_param, ":display_message", 2),
       (party_set_slot, ":center_no", slot_center_is_besieged_by, -1), #clear siege
+      # LAV MODIFICATIONS START (SIEGE CAMP ICON MINI-MOD)
+      (party_set_extra_icon, ":center_no", 0, 0, 0, 0, 0),
+      # LAV MODIFICATIONS END (SIEGE CAMP ICON MINI-MOD)
       (call_script, "script_village_set_state",  ":center_no", 0), #clear siege flag
       (try_begin),
         (eq, ":center_no", "$g_player_besiege_town"),
@@ -22496,6 +22505,9 @@ scripts = [
             (else_try),
               (party_set_slot, ":ai_object", slot_center_is_besieged_by, ":party_no"),
             (try_end),
+      # LAV MODIFICATIONS START (SIEGE CAMP ICON MINI-MOD)
+            (party_set_extra_icon, ":ai_object", "icon_castle_besieged", 0, 0, 0, 0),
+      # LAV MODIFICATIONS END (SIEGE CAMP ICON MINI-MOD)
             (store_current_hours, ":cur_hours"),
             (party_set_slot, ":ai_object", slot_center_siege_begin_hours, ":cur_hours"),
 
