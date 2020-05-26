@@ -1231,6 +1231,11 @@ items = [
  1, weight(3)|abundance(100)|head_armor(0)|body_armor(0)|leg_armor(1) ,imodbits_armor ],
 ["warhorse_sarranid","Sarranian War Horse", [("warhorse_sarranid",0)], itp_merchandise|itp_type_horse, 0, 1811,abundance(40)|hit_points(165)|body_armor(58)|difficulty(4)|horse_speed(40)|horse_maneuver(44)|horse_charge(32)|horse_scale(112),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_6]],
 ["warhorse_steppe","Steppe Charger", [("warhorse_steppe",0)], itp_merchandise|itp_type_horse, 0, 1400,abundance(45)|hit_points(150)|body_armor(40)|difficulty(4)|horse_speed(40)|horse_maneuver(50)|horse_charge(28)|horse_scale(112),imodbits_horse_basic|imodbit_champion, [], [fac_kingdom_3,fac_kingdom_2]],
-
+ ["swadhalfplate", "Swadian Halfplate", [("swadianhalfplate",0)], itp_merchandise|itp_type_body_armor|itp_covers_legs|itp_doesnt_cover_hair|itp_can_penetrate_shield, 0 ,7553 , weight(27)|abundance(40)|head_armor(0)|body_armor(56)|leg_armor(18)|difficulty(9) ,imodbits_plate ],
+ ["swadhelm", "Swadian Helmet", [("swadianhelm",0)], itp_merchandise|itp_type_head_armor,0, 2240 , weight(2.75)|abundance(40)|head_armor(56)|body_armor(0)|leg_armor(0)|difficulty(10) ,imodbits_plate ],
+ ["swadgaunt","Swadian Gauntlets", [("swadiangaunt_L",0),("swadiangaunt_L",imodbit_reinforced)], itp_merchandise|itp_type_hand_armor,0, 1500, weight(1.0)|abundance(40)|body_armor(8)|difficulty(0),imodbits_armor],
+ ["swadboots", "Swadian Boots", [("swadianboots",0)], itp_merchandise| itp_type_foot_armor |itp_covers_legs|itp_doesnt_cover_hair|itp_can_penetrate_shield,0,
+ 2270 , weight(3.5)|abundance(40)|head_armor(0)|body_armor(0)|leg_armor(34)|difficulty(9) ,imodbits_armor ],
+ 
 ["items_end", "Items End", [("shield_round_a",0)], 0, 0, 1, 0, 0],
 ]
