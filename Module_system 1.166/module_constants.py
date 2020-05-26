@@ -162,6 +162,9 @@ slot_faction_political_issue_time 						 = 65 #Now is used
 
 #slot_faction_deserter_party_template       = 62
 
+#Eagle
+slot_faction_reinforcements_d        = 76
+#Eagle
 slot_faction_reinforcements_a        = 77
 slot_faction_reinforcements_b        = 78
 slot_faction_reinforcements_c        = 79
@@ -169,6 +172,13 @@ slot_faction_reinforcements_c        = 79
 slot_faction_num_armies              = 80
 slot_faction_num_castles             = 81
 slot_faction_num_towns               = 82
+
+#Eagle
+slot_faction_special_troop_a         = 110
+slot_faction_special_troop_b         = 111
+slot_faction_special_building_a      = 112
+slot_faction_master_swordsman        = 113
+#Eagle
 
 slot_faction_last_attacked_center    = 85
 slot_faction_last_attacked_hours     = 86
@@ -346,12 +356,15 @@ slot_town_arena_melee_3_team_size = 85
 slot_town_arena_melee_cur_tier    = 86
 ##slot_town_arena_template	  = 87
 
+
 slot_center_npc_volunteer_troop_type   = 90
 slot_center_npc_volunteer_troop_amount = 91
+slot_center_volunteer_troop_a_amount_town = 88 #Eagle
+slot_center_volunteer_troop_b_amount_town = 89 #Eagle
 slot_center_mercenary_troop_type  = 90
 slot_center_mercenary_troop_amount= 91
 slot_center_volunteer_troop_type  = 92
-slot_center_volunteer_troop_amount= 93
+slot_center_volunteer_troop_amount = 93
 
 #slot_center_companion_candidate   = 94
 slot_center_ransom_broker         = 95
@@ -384,13 +397,13 @@ slot_center_improvement_end_hour  = 125
 slot_party_last_traded_center     = 126 
 
 
-
-slot_center_has_manor            = 130 #village
-slot_center_has_fish_pond        = 131 #village
-slot_center_has_watch_tower      = 132 #village
-slot_center_has_school           = 133 #village
-slot_center_has_messenger_post   = 134 #town, castle, village
-slot_center_has_prisoner_tower   = 135 #town, castle
+slot_center_has_manor            = 129 #village
+slot_center_has_fish_pond        = 130 #village
+slot_center_has_watch_tower      = 131 #village
+slot_center_has_school           = 132 #village
+slot_center_has_messenger_post   = 133 #town, castle, village
+slot_center_has_prisoner_tower   = 134 #town, castle
+slot_center_has_military_academy = 135 #town
 
 village_improvements_begin = slot_center_has_manor
 village_improvements_end          = 135
@@ -937,9 +950,7 @@ slot_troop_will_join_prison_break      = 161
 troop_slots_reserved_for_relations_start        = 165 #this is based on id_troops, and might change
 
 slot_troop_relations_begin				= 0 #this creates an array for relations between troops
-											#Right now, lords start at 165 and run to around 290, including pretenders
-											
-											
+											#Right now, lords start at 165 and run to around 290, including pretenders											
 											
 ########################################################
 ##  PLAYER SLOTS           #############################
@@ -1480,6 +1491,17 @@ all_items_end = "itm_items_end"
 
 all_quests_begin = 0
 all_quests_end = "qst_quests_end"
+
+#Eagle
+master_swordsmen_begin = "trp_master_swordsman1"
+master_swordsmen_end = "trp_master_swordsman_end"
+
+camels_begin = "itm_camel1"
+camels_end = "itm_camel_end"
+
+elephants_begin = "itm_elephant1"
+elephants_end = "itm_elephant"
+#Eagle
 
 towns_begin = "p_town_1"
 castles_begin = "p_castle_1"

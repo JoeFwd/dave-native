@@ -3052,6 +3052,23 @@ game_menus = [
    [
      ],
     [
+#Begin Eagle
+      ("cheat_increase_relation_center",
+      [
+        (eq, "$cheat_mode", 1),   
+      ],
+      "Increases by 1 the player's relation with all centers",
+      [
+        (try_for_range, ":center_no", centers_begin, centers_end),
+        (party_get_slot, ":player_relation", ":center_no", slot_center_player_relation),
+        (val_add, ":player_relation", 1),
+        (party_set_slot, ":center_no", slot_center_player_relation, ":player_relation"),
+        (try_end),
+        (display_message, "@Player's relation has improved with all centers."),
+        (jump_to_menu, "mnu_camp_cheat"),
+      ]),
+#End Eagle
+       
       ("camp_cheat_find_item",[], "Find an item...",
        [
          (jump_to_menu, "mnu_cheat_find_item"),
@@ -6189,7 +6206,7 @@ game_menus = [
          (jump_to_menu, "mnu_castle_besiege"),
        ]),
 
-      ("cheat_conquer_castle",[(eq, "$cheat_mode", 1),
+      ("cheat_conquer_castle",[(eq, "$cheat_mode", 1), 
                                    ],
        "{!}CHEAT: Instant conquer castle.",
        [
@@ -8004,7 +8021,62 @@ game_menus = [
                                        ],
        "Build a prisoner tower.",[(assign, "$g_improvement_type", slot_center_has_prisoner_tower),
                                   (jump_to_menu, "mnu_center_improve"),]),
-                           
+      ("center_build_military_academy",[(eq, reg6, 0),
+                             (party_slot_eq, "$g_encountered_party", slot_party_type, spt_town),
+                             (party_slot_eq, "$g_encountered_party", slot_center_has_military_academy, 0),
+                                  ],
+       "Build a military academy.",[(assign, "$g_improvement_type", slot_center_has_military_academy),
+                         (jump_to_menu, "mnu_center_improve"),]),
+
+
+#Eagle begin
+
+     ("recruit_elite_troops",
+      [
+        (is_between, "$current_town", towns_begin, towns_end),
+        (try_begin),
+            (party_slot_eq, "$current_town", slot_center_volunteer_troop_a_amount_town, 0),
+            (party_slot_eq, "$current_town", slot_center_volunteer_troop_b_amount_town, 0),
+            (party_set_slot, "$current_town", slot_center_volunteer_troop_a_amount_town, -1),
+        (try_end),
+        (call_script, "script_cf_town_castle_recruit_volunteers_cond"),
+       ]
+       ,"Meet the Master Swordsman at your Military Academy",
+       [
+        (party_get_slot, ":original_faction", "$current_town", slot_center_original_faction),
+        (faction_get_slot, ":spawned_bot", ":original_faction", slot_faction_master_swordsman),
+        (assign, ":enterprise_scene", "scn_elite_troops_building"),
+        (modify_visitors_at_site,":enterprise_scene"),
+	(reset_visitors),
+        (set_visitor,0, "trp_player"),
+        (set_visitor,17, ":spawned_bot"),
+        (set_jump_mission, "mt_town_default"),
+        (jump_to_scene, ":enterprise_scene"),
+#        (assign, "$talk_context", tc_town_talk),
+        (change_screen_map_conversation, ":spawned_bot"),
+        
+        ]),
+
+
+
+
+    
+##     ("recruit_elite_troops",
+##      [
+##        (is_between, "$current_town", towns_begin, towns_end),
+##         (call_script, "script_cf_town_castle_recruit_volunteers_cond"),
+##       ]
+##       ,"Recruit Elite Troops from your military academy.",
+##       [ 
+##         (try_begin),
+##           (call_script, "script_cf_enter_center_location_bandit_check"),
+##         (else_try),
+##           (jump_to_menu, "mnu_elite_troops_interface"), 
+##         (try_end),
+##        ]),
+
+      
+#Eagle end                           
       ("go_back_dot",[],"Go back.",[(jump_to_menu, "$g_next_menu")]),
     ],
   ),
@@ -8993,7 +9065,9 @@ game_menus = [
            (change_screen_mission),
          (try_end),	   
       ],"Door to the town center."),
-      
+
+
+
       ("town_tavern",[
           (party_slot_eq,"$current_town",slot_party_type, spt_town),
           (this_or_next|eq,"$entry_to_town_forbidden",0),
@@ -9955,6 +10029,7 @@ game_menus = [
 
     ]
    ),
+
 
       
 
@@ -14565,8 +14640,110 @@ game_menus = [
     ]
   ),
 
-  
-  
 
-  
- ]
+###Eagle begin 
+###Menu Recruit Nobles
+##    (
+##    "elite_troops_interface",0, 
+##    "There are currently^{reg4} {s3}^^{reg5} {s4}^available to hire at the moment.",
+##    "none",
+##    [
+##        (party_get_slot, ":original_faction", "$current_town", slot_center_original_faction), #added
+##        (faction_get_slot, ":volunteer_troop_a", ":original_faction", slot_faction_special_troop_a),
+##        (faction_get_slot, ":volunteer_troop_b", ":original_faction", slot_faction_special_troop_b),
+##        (party_get_slot, ":volunteer_amount_a", "$current_town", slot_center_volunteer_troop_a_amount_town),
+##        (party_get_slot, ":volunteer_amount_b", "$current_town", slot_center_volunteer_troop_b_amount_town),
+##        (str_store_troop_name, s3, ":volunteer_troop_a"),
+##        (str_store_troop_name, s4, ":volunteer_troop_b"),
+##        (assign, reg4, ":volunteer_amount_a"),
+##        (assign, reg5, ":volunteer_amount_b"),
+##        (party_get_free_companions_capacity, ":free_capacity", "p_main_party"),
+##        (store_troop_gold, ":gold", "trp_player"),
+##        (store_div, ":gold_capacity", ":gold", 200),#40 denars per man
+##        (assign, reg11, 0),
+##        (try_begin),
+##            (eq, ":gold_capacity", 0),
+##            (assign, reg11, 1),
+##        (try_end),    
+##        (assign, ":party_capacity", ":free_capacity"),
+##        (val_min, ":party_capacity", ":gold_capacity"),
+##        (try_begin),
+##           (gt, ":party_capacity", 0),
+##           (val_min, ":volunteer_amount_a", ":party_capacity"),
+##           (val_min, ":volunteer_amount_b", ":party_capacity"),
+##        (try_end),
+##       (assign, reg9, ":volunteer_amount_a"),
+##        (assign, reg10, ":volunteer_amount_b"),
+##        (assign, reg8, 0),
+##        (try_begin),
+##            (gt, ":volunteer_amount_a", ":gold_capacity"),
+##           (gt, ":volunteer_amount_b", ":gold_capacity"),
+##            (assign, reg8, 1), #not enough money
+##        (try_end),
+##        (set_background_mesh, "mesh_pic_arms_swadian"),
+##        (eq, reg8, 0),
+##        (store_mul, reg6, ":volunteer_amount_a", 200),
+##        (store_mul, reg7, ":volunteer_amount_b", 200),
+##    ],
+##    [
+##      ("recruit_elite_a",
+##      [
+##        (eq, reg8, 0),
+##       (party_slot_ge, "$current_town", slot_center_volunteer_troop_a_amount_town, 1),
+##        (eq, reg11, 0),
+##        
+##      ],
+##           "Hire {reg9} {s3} ({reg6} gold).",
+##      [
+##           (call_script, "script_town_castle_recruit_elite_troop_a_recruit"),
+##           (store_sub, ":volunteer_a_amount_left", reg4, reg9),
+##           (party_set_slot, "$current_town", slot_center_volunteer_troop_a_amount_town, ":volunteer_a_amount_left"),
+##           (try_begin),
+##               (party_slot_eq, "$current_town", slot_center_volunteer_troop_b_amount_town, 0),
+##               (party_slot_eq, "$current_town", slot_center_volunteer_troop_a_amount_town, 0),
+##               (party_set_slot, "$current_town", slot_center_volunteer_troop_b_amount_town, -1),
+##           (end_try),
+##           (jump_to_menu, "mnu_town"),
+##      ]),
+##
+##      ("recruit_elite_b",
+##      [
+##        (eq, reg8, 0),
+##        (party_slot_ge, "$current_town", slot_center_volunteer_troop_b_amount_town, 1),
+##        (eq, reg11, 0),
+##      ],
+##           "Hire {reg10} {s4} ({reg7} gold).",
+##      [
+##           (call_script, "script_town_castle_recruit_elite_troop_b_recruit"),
+##           (store_sub, ":volunteer_b_amount_left", reg5, reg10),
+##           (party_set_slot, "$current_town", slot_center_volunteer_troop_b_amount_town, ":volunteer_b_amount_left"),
+##          (try_begin),
+##               (party_slot_eq, "$current_town", slot_center_volunteer_troop_b_amount_town, 0),
+##               (party_slot_eq, "$current_town", slot_center_volunteer_troop_a_amount_town, 0),
+##               (party_set_slot, "$current_town", slot_center_volunteer_troop_b_amount_town, -1),
+##           (end_try),
+##           (jump_to_menu, "mnu_town"),
+##      ]),
+##
+##
+##      ("forget_it_2",
+##      [
+##         (eq, reg8, 0),
+##      ], #noone willing to join                   
+##      "Forget it.",
+##      [
+##        (jump_to_menu, "mnu_town"),
+##      ]),
+##      ("continue_not_enough_gold",
+##      [
+##       (eq, reg8, 1),
+##      ],
+##      "I don't have enough money...",
+##      [
+##          (jump_to_menu, "mnu_town"),
+##      ]),
+##     ],
+##  ),
+###Eagle end
+
+]

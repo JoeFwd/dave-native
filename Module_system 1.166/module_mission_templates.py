@@ -2,10 +2,12 @@ from header_common import *
 from header_operations import *
 from header_mission_templates import *
 from header_animations import *
+from header_skills import *
 from header_sounds import *
 from header_music import *
 from header_items import *
 from module_constants import *
+from module_skills import *
 
 ####################################################################################################################
 #   Each mission-template is a tuple that contains the following fields:
@@ -34,6 +36,7 @@ from module_constants import *
 
 pilgrim_disguise = [itm_pilgrim_hood,itm_pilgrim_disguise,itm_practice_staff, itm_throwing_daggers]
 af_castle_lord = af_override_horse | af_override_weapons| af_require_civilian
+#Eagle begin
 
 #dedal begin
 dedal_tavern_animations = (
@@ -439,6 +442,73 @@ common_rotate_deathcam = (
     ]
 )
 ##BEAN END - Deathcam
+
+horses_spook = (
+	6, 0, 0, [],#Every six seconds
+	[
+	(try_for_agents,":cur_horse"),
+		(agent_is_alive,":cur_horse"),
+		(agent_get_item_id,":horse_type",":cur_horse"),
+		(is_between,":horse_type",camels_begin,camels_end),
+		(agent_get_position,pos2,":cur_horse"),	
+		(agent_get_rider,":cur_rider",":cur_horse"),		# Store rider info from camel
+			(gt, ":cur_rider", -1),						# Camel has rider (greater thn -1)
+			(agent_get_team,":agent_team",":cur_rider"),	# Store camel rider info, what team is he?
+			(try_for_agents,":enemy_horse"),				# Then  check enemy horse
+				(agent_is_alive,":enemy_horse"),#Make sure he's not dead
+				(neg|agent_is_human, ":enemy_horse"),
+				(agent_get_item_id,":enemy_horse_type",":enemy_horse"),
+				(neg|is_between, ":enemy_horse_type", camels_begin,camels_end),
+				(neg|is_between, ":enemy_horse_type", elephants_begin,elephants_end),
+				(agent_get_position, pos1,":enemy_horse"),
+				(get_distance_between_positions,":dist",pos1,pos2),#In CM
+				(le,":dist",3500),#Within 35m
+				(store_random_in_range,":chance",1,11),
+				
+				(try_begin),		# Check if opposing team, apply horse spook. If not, don't
+					(agent_get_rider,":enemy_rider",":enemy_horse"),
+					(gt, ":enemy_rider", -1),
+					(agent_get_team,":enemy_team",":enemy_rider"),
+					(try_begin),
+						(teams_are_enemies,":agent_team",":enemy_team"),
+						(agent_get_troop_id,":enemy_rider",":enemy_rider"),
+						(store_skill_level,":riding","skl_riding",":enemy_rider"),
+					(else_try),
+						(assign,":riding", 99),
+					(try_end),
+					(val_add,":chance",":riding"),
+				(try_end),
+
+				(lt, ":chance", 8),
+				(agent_play_sound, ":enemy_horse", "snd_horse_low_whinny"),		# gives sound
+				(agent_set_animation,":enemy_horse","anim_horse_rear"),
+			(try_end),	# try_for_agents enemy_horse
+	(try_end),
+	]
+)
+
+##elephant_collision = (
+##	1, 0, 0, [],
+##	[
+##	(try_for_agents,":cur_elephant"),
+##		(agent_is_alive,":cur_elephant"),
+##		(agent_get_item_id,":horse_type",":cur_elephant"),
+##		(is_between,":horse_type",elephants_begin,elephants_end),
+##		(agent_get_position,pos2,":cur_elephant"),	
+##		(try_for_agents,":cur_horse"),				
+##			(agent_is_alive,":cur_horse"),#Make sure he's not dead
+##			(neg|agent_is_human, ":cur_horse"),
+##			(agent_get_item_id,":cur_horse_type",":cur_horse"),
+##			(neg|is_between, ":cur_horse_type", elephants_begin,elephants_end),
+##			(agent_get_position, pos1,":cur_horse"),
+##			(get_distance_between_positions,":dist",pos1,pos2),#In CM
+##			(le,":dist",200),#Within .5m
+##			(agent_set_animation,":cur_horse","anim_horse_pace_1"),
+##		(try_end),	# try_for_agents enemy_horse
+##	(try_end),
+##	]
+##)
+#Eagle end
 
 multiplayer_server_check_belfry_movement = (
   0, 0, 0, [],
@@ -2641,6 +2711,8 @@ mission_templates = [
       common_start_deathcam,
       common_move_deathcam,
       common_rotate_deathcam,
+      horses_spook,
+      #elephant_collision,
       (ti_on_agent_spawn, 0, 0, [],
        [
          (store_trigger_param_1, ":agent_no"),
@@ -2852,73 +2924,12 @@ mission_templates = [
      (1,mtef_visitor_source|mtef_team_0,0,aif_start_alarmed,1,[]),
      ],
     [
-      common_battle_tab_press,
-      common_battle_init_banner,
-
-      (ti_question_answered, 0, 0, [],
-       [(store_trigger_param_1,":answer"),
-        (eq,":answer",0),
-        (assign, "$pin_player_fallen", 0),
-        (str_store_string, s5, "str_retreat"),
-        (call_script, "script_simulate_retreat", 10, 20, 1),
-        (assign, "$g_battle_result", -1),
-        (call_script, "script_count_mission_casualties_from_agents"),
-        (finish_mission,0),]),
-
-      (0, 0, ti_once, [], [(assign, "$g_battle_won", 0),
-                           (assign, "$defender_reinforcement_stage", 0),
-                           (assign, "$attacker_reinforcement_stage", 0),
-                           (try_begin),
-                             (eq, "$g_mt_mode", vba_after_training),
-                             (add_reinforcements_to_entry, 1, 6),
-                           (else_try),
-                             (add_reinforcements_to_entry, 1, 29),
-                           (try_end),
-                           (call_script, "script_combat_music_set_situation_with_culture"),
-                           ]),
-
-      common_music_situation_update,
-      common_battle_check_friendly_kills,
-      common_battle_check_victory_condition,
-      common_battle_victory_display,
-
-    (1, 4, ti_once,
-        [
-            (main_hero_fallen),
-            (assign, ":pteam_alive", 0),
-            (try_for_agents, ":agent"), #Check players team is dead
-            (neq, ":pteam_alive", 1), #Break loop
-            (agent_is_ally, ":agent"),
-            (agent_is_alive, ":agent"),
-                (assign, ":pteam_alive", 1),
-            (try_end),
-            (eq, ":pteam_alive", 0),
-        ],
-        [
-            (assign, "$pin_player_fallen", 1),
-            (display_message, "@Press TAB to end the battle."),
-        ]),
-
-      common_battle_inventory,      
-      common_battle_order_panel,
-      common_battle_order_panel_tick,
-      
-    ],
-  ),
-
-  (
-    "village_attack_bandits",mtf_battle_mode|mtf_synch_inventory,charge,
-    "You lead your men to battle.",
-    [
-     (3,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,1,[]),
-     (1,mtef_team_0|mtef_use_exact_number,0,aif_start_alarmed, 7,[]),
-     (1,mtef_visitor_source|mtef_team_0,0,aif_start_alarmed,1,[]),
-     ],
-    [
       common_init_deathcam,
       common_start_deathcam,
       common_move_deathcam,
       common_rotate_deathcam,
+      horses_spook,
+      #elephant_collision,
       common_battle_tab_press,
       common_battle_init_banner,
 
@@ -2989,6 +3000,7 @@ mission_templates = [
       common_start_deathcam,
       common_move_deathcam,
       common_rotate_deathcam,
+      #horses_spook,
       common_battle_tab_press,
       common_battle_init_banner,
 
@@ -8194,6 +8206,8 @@ mission_templates = [
       common_start_deathcam,
       common_move_deathcam,
       common_rotate_deathcam,
+      horses_spook,
+      #elephant_collision,
       common_custom_battle_tab_press,
       common_custom_battle_question_answered,
       common_inventory_not_available,

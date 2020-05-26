@@ -242,6 +242,119 @@ dialogs = [
                      (eq, 1, 0)],  
    "{!}Warning: This line is never displayed. It is just for storing conversation variables.", "close_window", []],
 
+#Eagle's Elite Troop Recruitment Dialog begin
+
+  [anyone, "start", [
+      (eq, "$talk_context", tc_town_talk),
+      (is_between, "$g_talk_troop", master_swordsmen_begin, master_swordsmen_end),
+  ], "Greetings my Lord, You will find here the finest swordsmen, the cream of the crop of these lands. You can hire them here.\
+You will have to provide 500 denars for each man you are looking to recruit. Indeed, he has to invest in some decent equipment and he will consider the rest as a first payment.", "member_recruit_elite_troops_question", []],
+		
+  [anyone, "member_recruit_elite_troops_question", [],
+        "Anyway, what kind of soldier will it be?", "member_elite_troop_choice",[]],
+
+  [anyone|plyr,"member_elite_troop_choice", [
+      (party_get_slot, ":original_faction", "$current_town", slot_center_original_faction),
+      (faction_get_slot, ":elite_troop_a", ":original_faction", slot_faction_special_troop_a), 
+
+      (party_get_slot, ":volunteer_amount_a", "$current_town", slot_center_volunteer_troop_a_amount_town),
+      (gt, ":volunteer_amount_a", 0),
+      (assign, reg0, ":volunteer_amount_a"),
+      (str_store_troop_name, s1, ":elite_troop_a"),
+      (display_message, "@There are {reg0} {s1} available"),
+
+      ], "{s1}.", "member_enlist_elite_troop_question",[(assign, reg1, 1),]],
+
+
+  [anyone|plyr,"member_elite_troop_choice", [
+      (party_get_slot, ":original_faction", "$current_town", slot_center_original_faction),
+      (faction_get_slot, ":elite_troop_b", ":original_faction", slot_faction_special_troop_b),
+
+
+      (party_get_slot, ":volunteer_amount_b", "$current_town", slot_center_volunteer_troop_b_amount_town),
+      (assign, reg4, ":volunteer_amount_b"), #used reg4 in order to not overwrite reg0
+      (gt, ":volunteer_amount_b", 0),
+      (str_store_troop_name, s2, ":elite_troop_b"),
+      (display_message, "@There are {reg4} {s2} available"),
+
+      ], "{s2}.", "member_enlist_elite_troop_question",[(assign, reg1, 0),(assign, reg0, reg4),]],#overwrite reg0 only if the player decides to recruit elite troop b.
+      
+  [anyone|plyr,"member_elite_troop_choice", [(ge, reg0, 1)], "Never mind.", "close_window",[(jump_to_menu, "mnu_town"),]],
+
+  [anyone, "member_enlist_elite_troop_question", [], "All right. How many warriors are you willing to enlist?", "member_enlist_elite_troop", [
+        (store_troop_gold, ":gold", "trp_player"),
+        (store_div, ":gold_capacity", ":gold", 500),#500 denars per man
+        (assign, reg6, reg0), #save the amount of elite troops because the player can't hire all of it.
+        (assign, reg7, 7), #Peu importe la valeur à vrai dire
+        (assign, reg5, 0),
+        (try_begin),
+            (lt, ":gold_capacity", reg0),
+            (assign, reg0, ":gold_capacity"),
+            (assign, reg7, 0),
+        #(else_try),
+            #(assign, reg5, 0),
+        (try_end),
+
+        ]],
+
+
+  #Choose how many troops you want
+
+  [anyone,"member_enlist_elite_troop", [(eq, reg0, -1),], "default", "close_window",[(jump_to_menu, "mnu_town"),]],
+  [anyone|plyr,"member_enlist_elite_troop", [(eq, reg0, 0),], "Sorry, I can't afford any of them.", "close_window",[(jump_to_menu, "mnu_town"),]],
+  [anyone|plyr,"member_enlist_elite_troop", [(ge, reg0, 1), (try_begin), (val_add, reg7, 1), (eq, reg0, reg7), (assign, reg5, 1), (try_end),], "{reg5?I can only afford one of them:1}", "member_enlist_elite_troop_end",[(assign, reg2, 1), (assign, reg3, 500), (assign, reg9, 1),(assign, reg5, 0),]],
+  [anyone|plyr,"member_enlist_elite_troop", [(ge, reg0, 2), (try_begin), (val_add, reg7, 1), (eq, reg0, reg7), (assign, reg5, 1), (try_end),], "{reg5?The most I can afford is 2:2}", "member_enlist_elite_troop_end",[(assign, reg2, 2), (store_mul, reg3, reg2, 500), (assign, reg9, 0), (assign, reg5, 0),]],
+  [anyone|plyr,"member_enlist_elite_troop", [(ge, reg0, 3), (try_begin), (val_add, reg7, 1), (eq, reg0, reg7), (assign, reg5, 1), (try_end),], "{reg5?The most I can afford is 3:3}", "member_enlist_elite_troop_end",[(assign, reg2, 3), (store_mul, reg3, reg2, 500), (assign, reg9, 0), (assign, reg5, 0),]],
+  [anyone|plyr,"member_enlist_elite_troop", [(ge, reg0, 4), (try_begin), (val_add, reg7, 1), (eq, reg0, reg7), (assign, reg5, 1), (try_end),], "{reg5?The most I can afford is 4:4}", "member_enlist_elite_troop_end",[(assign, reg2, 4), (store_mul, reg3, reg2, 500), (assign, reg9, 0), (assign, reg5, 0),]],
+  [anyone|plyr,"member_enlist_elite_troop", [(ge, reg0, 5), (try_begin), (val_add, reg7, 1), (eq, reg0, reg7), (assign, reg5, 1), (try_end),], "{reg5?The most I can afford is 5:5}", "member_enlist_elite_troop_end",[(assign, reg2, 5), (store_mul, reg3, reg2, 500), (assign, reg9, 0), (assign, reg5, 0),]],
+  [anyone|plyr,"member_enlist_elite_troop", [(ge, reg0, 6), (try_begin), (val_add, reg7, 1), (eq, reg0, reg7), (assign, reg5, 1), (try_end),], "{reg5?The most I can afford is 6:6}", "member_enlist_elite_troop_end",[(assign, reg2, 6), (store_mul, reg3, reg2, 500), (assign, reg9, 0), (assign, reg5, 0),]],
+  [anyone|plyr,"member_enlist_elite_troop", [(ge, reg0, 7),], "7", "member_enlist_elite_troop_end",[(assign, reg2, 7), (store_mul, reg3, reg2, 500), (assign, reg9, 0), (assign, reg5, 0),]],
+  [anyone|plyr,"member_enlist_elite_troop", [(ge, reg0, 1)], "Never mind.", "close_window",[(jump_to_menu, "mnu_town"),]],
+ 
+  [anyone,"member_enlist_elite_troop_end",[
+      (val_sub, reg6, reg2),
+      (try_begin),
+          (party_get_free_companions_capacity, ":free_capacity", "p_main_party"), #If army limit has been reached, then the units above the limit will be transfered to the town's garrison.
+          (lt, ":free_capacity", reg2),
+          (store_sub, ":recruit_above_limit" , reg2,":free_capacity"),
+          (assign, reg2, ":free_capacity"),
+          (assign, ":no_limit", 1),
+      (else_try),
+          (assign, ":no_limit", 0),
+      (try_end),
+      (try_begin),
+          (eq, reg1, 1),
+          (party_set_slot, "$current_town", slot_center_volunteer_troop_a_amount_town, reg6),
+          (party_get_slot, ":original_faction", "$current_town", slot_center_original_faction),
+          (faction_get_slot, ":elite_troop_a", ":original_faction", slot_faction_special_troop_a),
+          (str_store_troop_name, s3, ":elite_troop_a"),
+          (display_message, "@There is now {reg6} {s1} available"),
+          (try_begin),
+              (eq, ":no_limit", 1),
+              (party_add_members, "$current_town", ":elite_troop_a", ":recruit_above_limit"),
+          (try_end),
+  	  (party_add_members, "p_main_party", ":elite_troop_a", reg2),
+	  (troop_remove_gold, "trp_player", reg3),
+      (else_try),
+          (party_set_slot, "$current_town", slot_center_volunteer_troop_b_amount_town, reg6),
+          (party_get_slot, ":original_faction", "$current_town", slot_center_original_faction),
+          (faction_get_slot, ":elite_troop_b", ":original_faction", slot_faction_special_troop_b),
+          (str_store_troop_name, s3, ":elite_troop_b"),
+          (display_message, "@There is now {reg6} {s2} available"),
+          (try_begin),
+              (eq, ":no_limit", 1),
+              (party_add_members, "$current_town", ":elite_troop_b", ":recruit_above_limit"),
+          (try_end),
+          (party_add_members, "p_main_party", ":elite_troop_b", reg2),
+	  (troop_remove_gold, "trp_player", reg3),
+      (try_end),
+      (val_add, reg2, ":recruit_above_limit"), #bug fix 
+        ], "{reg2} {s3} {reg9?is:are} on {reg9?its:their} way to your camp. Anything else?", "member_enlist_elite_troop_again",[]],
+
+  [anyone|plyr,"member_enlist_elite_troop_again", [], "I wish to enlist some other men.", "member_recruit_elite_troops_question",[]],
+  [anyone|plyr,"member_enlist_elite_troop_again", [], "So long.", "close_window",[(jump_to_menu, "mnu_town"),]],
+#Eagle's Elite Troop Recruitment Dialog end
+
 #Dedal begin
     ##Tavern commoner's dialog turned off
     [anyone|plyr,"start",[(eq,"$talk_context",tc_tavern_talk),(is_between,"$g_talk_troop",walkers_begin,walkers_end)],
@@ -250,6 +363,7 @@ dialogs = [
     [anyone|plyr,"start",[(eq,"$talk_context",tc_tavern_talk),(is_between,"$g_talk_troop","trp_musican_male","trp_musicans_end")],
     "This person looks quite busy. I think I shouldn't interrupt...","close_window",[]],
 #Dedal end
+
   
   [anyone, "event_triggered",
    [
@@ -9290,7 +9404,7 @@ dialogs = [
 		#(assign, reg0, "$player_right_to_rule"),
 		#(assign, reg1, ":recruitment_candidate"),
 		#(troop_get_slot, reg2, ":recruitment_candidate", slot_troop_renown),
-		#(display_message, "@{!}DEBUG : player_right_to_rule = {reg0}"),
+		#(display_message, "@{!}DEBUG : player_right_to_rule =   {reg0}"),
 		#(display_message, "@{!}DEBUG : recruitment_candidate = {reg1}"),
 		#(display_message, "@{!}DEBUG : renown = {reg2}"),
 		
@@ -26293,4 +26407,7 @@ I suppose there are plenty of bounty hunters around to get the job done . . .", 
   [anyone|plyr,"free", [[in_meta_mission]], " Good-bye.", "close_window",[]],
   [anyone|plyr,"free", [[neg|in_meta_mission]], " [Leave]", "close_window",[]],
 #  [anyone,"free", [], "NO MATCHING SENTENCE!", "close_window",[]],
+
+
+
 ]

@@ -13,3 +13,10 @@
 - Added NI two hander overswing animation. (0.03)
 - Added Musics (0.03)
 - Added the Perfectly Smooth, Mouse-Enabled Deathcam V1.4. (0.04)
+
+- Added tons of items (+250). Tried to adjust a maximum for economy balance (prices). List will be done later on. (1.0.0)
+- Added some units : Swadian Holy Knight, Swadian kingsman, Varangian Guard, Ranger of the Woods, Khergit Khazaks, Khergit War Elephants, 
+Nord Heavy Beserker, Nord Merkismathr, Rhodok Arbaletrier, Rhodok Master Spearman, Sarranid Camel Archer, Brass Desert Warrior.  (1.0.0)
+- Added dialog system which enables the player to recruit elite troops (above) by building a military academy in his city.  (1.0.0)
+- Added AI system which makes Lords build a military academy themselves which enable them to recruit those units too within a certain limit.  (1.0.0)
+(according to their status and fiefs).

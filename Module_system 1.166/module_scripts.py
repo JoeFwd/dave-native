@@ -181,6 +181,47 @@ scripts = [
         (assign, reg3, "$cheat_mode"),
         (display_message, "@{!}DEBUG : Completed faction troop assignments, cheat mode: {reg3}"),
       (try_end),
+#Begin Eagle
+# Build the special buildings in the 6 capitals to begin with
+      (party_set_slot,"p_town_6",slot_center_has_military_academy,1),
+      (faction_set_slot,"fac_kingdom_1",slot_faction_special_building_a,"p_town_6"),
+      (party_set_slot,"p_town_8",slot_center_has_military_academy,1),
+      (faction_set_slot,"fac_kingdom_2",slot_faction_special_building_a,"p_town_8"),
+      (party_set_slot,"p_town_10",slot_center_has_military_academy,1),
+      (faction_set_slot,"fac_kingdom_3",slot_center_has_military_academy,"p_town_10"),
+      (party_set_slot,"p_town_1",slot_center_has_military_academy,1),
+      (faction_set_slot,"fac_kingdom_4",slot_faction_special_building_a,"p_town_1"),
+      (party_set_slot,"p_town_5",slot_center_has_military_academy,1),
+      (faction_set_slot,"fac_kingdom_5",slot_faction_special_building_a,"p_town_5"),
+	  (party_set_slot,"p_town_19",slot_center_has_military_academy,1),
+      (faction_set_slot,"fac_kingdom_6",slot_faction_special_building_a,"p_town_19"),
+
+# Set the special troops from the special building
+      (faction_set_slot,"fac_kingdom_1",slot_faction_special_troop_a,"trp_swadian_elit_troop_a"),
+      (faction_set_slot,"fac_kingdom_1",slot_faction_special_troop_b,"trp_swadian_elit_troop_b"),
+      (faction_set_slot,"fac_kingdom_1",slot_faction_master_swordsman,"trp_master_swordsman1"),
+
+      (faction_set_slot,"fac_kingdom_2",slot_faction_special_troop_a,"trp_vaegir_elit_troop_a"),
+      (faction_set_slot,"fac_kingdom_2",slot_faction_special_troop_b,"trp_vaegir_elit_troop_b"),
+      (faction_set_slot,"fac_kingdom_2",slot_faction_master_swordsman,"trp_master_swordsman2"),
+
+      (faction_set_slot,"fac_kingdom_3",slot_faction_special_troop_a,"trp_khergit_elit_troop_a"),
+      (faction_set_slot,"fac_kingdom_3",slot_faction_special_troop_b,"trp_khergit_elit_troop_b"),
+      (faction_set_slot,"fac_kingdom_3",slot_faction_master_swordsman,"trp_master_swordsman3"),
+
+      (faction_set_slot,"fac_kingdom_4",slot_faction_special_troop_a,"trp_nord_elit_troop_a"),
+      (faction_set_slot,"fac_kingdom_4",slot_faction_special_troop_b,"trp_nord_elit_troop_b"),
+      (faction_set_slot,"fac_kingdom_4",slot_faction_master_swordsman,"trp_master_swordsman4"),
+
+      (faction_set_slot,"fac_kingdom_5",slot_faction_special_troop_a,"trp_rhodok_elit_troop_a"),
+      (faction_set_slot,"fac_kingdom_5",slot_faction_special_troop_b,"trp_rhodok_elit_troop_b"),
+      (faction_set_slot,"fac_kingdom_5",slot_faction_master_swordsman,"trp_master_swordsman5"),
+
+      (faction_set_slot,"fac_kingdom_6",slot_faction_special_troop_a,"trp_sarranid_elit_troop_a"),
+      (faction_set_slot,"fac_kingdom_6",slot_faction_special_troop_b,"trp_sarranid_elit_troop_b"),
+      (faction_set_slot,"fac_kingdom_6",slot_faction_master_swordsman,"trp_master_swordsman6"),
+	  # Ne end building
+      #End Eagle
       
 # Factions:
       (faction_set_slot, "fac_kingdom_1",  slot_faction_culture, "fac_culture_1"),
@@ -818,6 +859,28 @@ scripts = [
       (try_for_range, ":village_no", villages_begin, villages_end),
         (call_script, "script_update_volunteer_troops_in_village", ":village_no"),
       (try_end),
+
+#Eagle : Test elites at the very beginning of the game.
+#      (try_for_range, ":town_no", towns_begin, towns_end),
+#        (call_script, "script_update_volunteer_troops_in_town", ":town_no"),
+#        (display_message, "@{!}DEBUG : script_update_volunteer_troops_in_town updated"),
+#      (try_end),
+       (try_for_range, ":town_no", towns_begin, towns_end),
+            (party_set_slot, ":town_no", slot_center_volunteer_troop_a_amount_town, -1),
+       (try_end), #Removes the ability to recruit elite troops at the beginning of the game due to the conditions of the update troops script.
+#       (party_add_members, "p_main_party", "trp_swadian_elit_troop_a", 1),
+#       (party_add_members, "p_main_party", "trp_swadian_elit_troop_b", 1),
+#       (party_add_members, "p_main_party", "trp_vaegir_elit_troop_a", 1),
+#       (party_add_members, "p_main_party", "trp_vaegir_elit_troop_b", 1),
+#       (party_add_members, "p_main_party", "trp_rhodok_elit_troop_a", 1),
+#       (party_add_members, "p_main_party", "trp_rhodok_elit_troop_b", 40),
+#       (party_add_members, "p_main_party", "trp_khergit_elit_troop_a", 1),
+#       (party_add_members, "p_main_party", "trp_khergit_elit_troop_b", 1),
+#       (party_add_members, "p_main_party", "trp_nord_elit_troop_a", 1),
+#        (party_add_members, "p_main_party", "trp_nord_elit_troop_b", 40),
+#        (party_add_members, "p_main_party", "trp_sarranid_elit_troop_a", 1),
+#        (party_add_members, "p_main_party", "trp_sarranid_elit_troop_b", 1),
+#Eagle
 	  
       (try_for_range, ":cur_kingdom", kingdoms_begin, kingdoms_end),
         (call_script, "script_update_faction_notes", ":cur_kingdom"),
@@ -5963,6 +6026,9 @@ scripts = [
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_a, "pt_kingdom_1_reinforcements_a"),
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_b, "pt_kingdom_1_reinforcements_b"),
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_c, "pt_kingdom_1_reinforcements_c"),
+    #Eagle
+          (faction_set_slot, ":faction_no",  slot_faction_reinforcements_d, "pt_kingdom_1_reinforcements_d"),
+    #Eagle
         (else_try),
           (faction_slot_eq, ":faction_no", slot_faction_culture, "fac_culture_2"),
       
@@ -5974,6 +6040,9 @@ scripts = [
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_a, "pt_kingdom_2_reinforcements_a"),
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_b, "pt_kingdom_2_reinforcements_b"),
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_c, "pt_kingdom_2_reinforcements_c"),
+    #Eagle
+          (faction_set_slot, ":faction_no",  slot_faction_reinforcements_d, "pt_kingdom_2_reinforcements_d"),
+    #Eagle
         (else_try),
           (faction_slot_eq, ":faction_no", slot_faction_culture, "fac_culture_3"),
       
@@ -5985,6 +6054,9 @@ scripts = [
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_a, "pt_kingdom_3_reinforcements_a"),
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_b, "pt_kingdom_3_reinforcements_b"),
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_c, "pt_kingdom_3_reinforcements_c"),
+    #Eagle
+          (faction_set_slot, ":faction_no",  slot_faction_reinforcements_d, "pt_kingdom_3_reinforcements_d"),
+    #Eagle
         (else_try),
           (faction_slot_eq, ":faction_no", slot_faction_culture, "fac_culture_4"),
       
@@ -5996,6 +6068,9 @@ scripts = [
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_a, "pt_kingdom_4_reinforcements_a"),
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_b, "pt_kingdom_4_reinforcements_b"),
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_c, "pt_kingdom_4_reinforcements_c"),
+    #Eagle
+          (faction_set_slot, ":faction_no",  slot_faction_reinforcements_d, "pt_kingdom_4_reinforcements_d"),
+    #Eagle
         (else_try),
           (faction_slot_eq, ":faction_no", slot_faction_culture, "fac_culture_5"),
       
@@ -6007,6 +6082,9 @@ scripts = [
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_a, "pt_kingdom_5_reinforcements_a"),
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_b, "pt_kingdom_5_reinforcements_b"),
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_c, "pt_kingdom_5_reinforcements_c"),
+    #Eagle
+          (faction_set_slot, ":faction_no",  slot_faction_reinforcements_d, "pt_kingdom_5_reinforcements_d"),
+    #Eagle
         (else_try),
           (faction_slot_eq, ":faction_no", slot_faction_culture, "fac_culture_6"),
       
@@ -6018,6 +6096,9 @@ scripts = [
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_a, "pt_kingdom_6_reinforcements_a"),
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_b, "pt_kingdom_6_reinforcements_b"),
           (faction_set_slot, ":faction_no",  slot_faction_reinforcements_c, "pt_kingdom_6_reinforcements_c"),
+    #Eagle
+          (faction_set_slot, ":faction_no",  slot_faction_reinforcements_d, "pt_kingdom_6_reinforcements_d"),
+    #Eagle
         (try_end),
       (try_end),
 	]),
@@ -20684,6 +20765,169 @@ scripts = [
       (val_max, ":cur_wealth", 0),
       (troop_set_slot, ":troop_no", slot_troop_wealth, ":cur_wealth"),
   ]),
+
+  #Eagle
+
+  # script_count_number_of_towns_with_military_ac_of_a_lord
+  # Input: arg1 = troop_no,
+  # Output: reg3 = number_of_towns_lord_have
+  ("count_number_of_towns_with_military_ac_of_a_lord",
+    [  
+      (store_script_param_1, ":troop_no"),
+
+      (assign, ":number_of_towns_lord_have", 0),
+      (try_for_range, ":town_no", towns_begin, towns_end),
+          (party_slot_eq, ":town_no", slot_town_lord, ":troop_no"),
+          (party_slot_eq, ":town_no", slot_center_has_military_academy, 1),
+	  (val_add, ":number_of_towns_lord_have", 1),
+      (try_end),
+      (assign, reg3, ":number_of_towns_lord_have"),
+    ]),
+
+  
+  # script_count_number_of_elit_troops_in_a_party
+  # Input: arg1 = party_no, 
+  # Output: reg0 = total_elit_troops_amount,
+   ("count_number_of_elit_troops_in_a_party",
+    [
+        (store_script_param_1, ":party_no"),
+
+        (party_get_slot, ":party_type",":party_no", slot_party_type),
+        (try_begin),
+            (eq, ":party_type", spt_kingdom_hero_party),
+            (party_stack_get_troop_id, ":leader", ":party_no"),
+            (troop_get_slot, ":party_faction",  ":leader", slot_troop_original_faction),
+        (else_try),
+            (party_get_slot, ":town_lord", ":party_no", slot_town_lord),           
+            (troop_get_slot, ":party_faction",  ":town_lord", slot_troop_original_faction),
+        (try_end),
+        (faction_get_slot, ":elit_troop_a", ":party_faction", slot_faction_special_troop_a),
+        (faction_get_slot, ":elit_troop_b", ":party_faction", slot_faction_special_troop_b),
+        (party_count_members_of_type, ":amount_a", ":party_no", ":elit_troop_a"),
+        (party_count_members_of_type, ":amount_b", ":party_no", ":elit_troop_b"),
+        (store_add, ":total_elit_troops_amount", ":amount_a", ":amount_b"),
+        (assign, reg0, ":total_elit_troops_amount"),
+    ]),
+
+
+
+
+  # script_cf_reinforce_party_with_elit_troops
+  # Input: arg1 = party_no, arg2 = troop_no (leader),
+  # Output: none
+  ("cf_reinforce_party_with_elit_troops",
+    [
+      (store_script_param_1, ":party_no"),
+      (store_script_param_2, ":troop_no"),
+
+      (troop_get_slot, ":original_lord_faction",  ":troop_no", slot_troop_original_faction), 
+      (faction_get_slot, ":party_template", ":original_lord_faction", slot_faction_reinforcements_d),
+      (party_add_template, ":party_no", ":party_template"),
+  ]),
+
+  # script_cf_reinforce_king_party_with_elit_troops
+  # Input: none
+  # Output: none
+  ("cf_reinforce_king_party_with_elit_troops",
+    [
+      (try_for_range, ":king_no", kings_begin, pretenders_end),
+          (neg|is_between, ":king_no", lords_begin, lords_end),
+          (troop_get_slot, ":king_party", ":king_no", slot_troop_leaded_party),
+          (ge, ":king_party", 1),
+          (party_is_active, ":king_party"),
+          (call_script, "script_count_number_of_elit_troops_in_a_party", ":king_party"), #output : reg0 = total elit troops number in the party.
+          (try_begin),
+              (le, reg0, 15),
+              (troop_get_slot, ":party_faction",  ":king_no", slot_troop_original_faction),
+              (faction_get_slot, ":elit_troop_a", ":party_faction", slot_faction_special_troop_a),
+              (faction_get_slot, ":elit_troop_b", ":party_faction", slot_faction_special_troop_b),
+              (party_add_members, ":king_party", ":elit_troop_a", 3),
+              (party_add_members, ":king_party", ":elit_troop_b", 3),
+          (try_end),
+          (assign, ":limit", 30), #limit of elit troops
+          (call_script, "script_count_number_of_towns_with_military_ac_of_a_lord", ":king_no"), #output is reg3
+          (val_mul, reg3, 10), #limit of additional elit troops if the king has one or more towns.
+          (val_add, ":limit", reg3),
+          (try_begin),
+              (le, reg0, ":limit"),
+              (call_script, "script_cf_reinforce_party_with_elit_troops", ":king_party", ":king_no"),      
+          (try_end),
+      (try_end),
+    ]),
+
+  # script_cf_reinforce_party_with_elit_troops_restriction
+  # Input: arg1 = party_no, arg2 = troop_no (leader),
+  # Output: reg1 = recruitment is valid or not for the lord, reg2 = recruitment is valid or not for the town 
+  ("cf_reinforce_party_with_elit_troops_restriction",
+    [
+      (store_script_param_1, ":party_no"),
+      (store_script_param_2, ":troop_no"),
+      
+      (party_get_slot, ":party_type",":party_no", slot_party_type),
+      (call_script, "script_count_number_of_elit_troops_in_a_party", ":party_no"),      
+      (try_begin),
+          (eq, ":party_type", spt_kingdom_hero_party),
+          (call_script, "script_count_number_of_towns_with_military_ac_of_a_lord", ":troop_no"), #output is reg3
+          (val_sub, reg3, 1), #additional towns with a military academy on top of his main town (with mil. ac.)
+          (assign, ":limit", 10), #limit of elit troops
+          (store_faction_of_party, ":party_no_faction", ":party_no"), 
+          (try_begin),
+              (faction_slot_eq, ":party_no_faction", slot_faction_marshall, ":troop_no"), #Checks if the leader is the marshall of his respective faction. If so, he will be granted a +10 capacity limit.
+              (assign, ":limit", 25),
+          (try_end),
+          (val_mul, reg3, 15), #limit of additional elit troops if ":troop_no" got more than one town.
+          (val_add, ":limit", reg3),
+          (try_begin),
+              (ge, reg0, ":limit"),
+              (assign, reg1, 1),
+          (else_try),
+              (assign, reg1, 0),
+          (try_end),         
+      (else_try),
+          (call_script, "script_count_number_of_elit_troops_in_a_party", ":party_no"),      
+          (try_begin),
+              (ge, reg0, 50),
+              (assign, reg2, 1),
+          (else_try),
+              (assign, reg2, 0),
+          (try_end),
+      (try_end),
+    ]),
+
+  # script_cf_lord_build_village_improvement
+  # Input: town_no (Town ID)
+  # Output: none
+  ("cf_lord_build_village_improvement",
+   [
+       (store_script_param, ":town_no", 1),
+
+	(party_get_slot, ":town_lord", ":town_no", slot_town_lord),
+	(troop_get_slot, ":lord_cur_wealth", ":town_lord", slot_troop_wealth),
+        (party_get_slot, ":cur_prosperity", ":town_no", slot_town_prosperity),
+
+	(store_random_in_range, ":rand_no", 0, 100),
+	(try_begin),
+       
+#Military Academy. No effect. It enables only elit troops recruitment.
+            (party_slot_eq, ":town_no", slot_center_has_military_academy, 0),
+	    (le, ":rand_no", 25),
+	    (ge, ":lord_cur_wealth", 10000),
+            (ge, ":cur_prosperity", 60),
+	    (party_set_slot, ":town_no", slot_center_current_improvement, slot_center_has_military_academy),
+            #(str_store_troop_name, s1, ":town_lord"), #Test
+            #(str_store_party_name, s2, ":town_no"), #Test
+            #(display_message, "@{s1} has began to build a Military Academy in his home town {s2}."), #Test
+	    (store_current_hours, ":cur_hours"),
+	    (store_mul, ":finish_time", 30, 24), # Lords get 5 engineer skill,  half cost/eng skill = finish time in hours.
+	    (val_add, ":finish_time", ":cur_hours"),   
+	    (party_set_slot, ":town_no", slot_center_improvement_end_hour, ":finish_time"),
+	    (store_sub, ":lord_wealth", ":lord_cur_wealth", 5000),
+	    (troop_set_slot, ":town_lord", slot_troop_wealth, ":lord_wealth"),
+       
+	(try_end),
+   ]),
+      
+  #Eagle
   
   # script_cf_reinforce_party
   # Input: arg1 = party_no,
@@ -20983,7 +21227,21 @@ scripts = [
         (party_remove_members, ":party_no", "trp_cattle", ":amount"),
       (try_end),
       ]),
-  
+#Eagle
+
+#    ("auto_inventory_item_triage",
+#     [
+#       (troop_get_inventory_capacity, ":end_cond", "trp_player"), #troop no can come -1 here error occured at friday
+#       (assign, reg0, ":end_cond"),
+#       (display_message,"@There are {reg0} slot in your inventory."),
+#       (try_for_range, ":i_slot", 0, ":end_cond"),
+#         (troop_get_inventory_slot, ":item_id", "trp_player", ":i_slot"),
+#         (ge, ":item_id", 0),
+#         (str_store_item_name, s9, ":item_id"),
+#         (display_message,"@You got {s9}."),
+#       (try_end),
+#     ]),
+        
   # script_create_kingdom_hero_party
   # Input: arg1 = troop_no, arg2 = center_no
   # Output: $pout_party = party_no
@@ -31243,6 +31501,36 @@ scripts = [
        (party_set_slot, ":center_no", slot_center_volunteer_troop_amount, ":amount"),
      ]),
 
+#Begin Eagle
+  #script_update_volunteer_troops_in_town
+  # INPUT: arg1 = center_no
+  # OUTPUT: none
+  ("update_volunteer_troops_in_town",
+    [
+       (store_script_param, ":center_no", 1),
+       (party_get_slot, ":player_relation", ":center_no", slot_center_player_relation),
+       (assign, ":upper_limit", 3),
+       (try_begin),
+         (ge, ":player_relation", 5),
+         (le, ":player_relation", 20),
+         (assign, ":upper_limit", ":player_relation"),
+         (val_div, ":upper_limit", 5),
+         (val_add, ":upper_limit", 3),
+       (else_try),
+            (gt, ":player_relation", 20),
+            (assign, ":upper_limit", 7),
+       (else_try),
+         (lt, ":player_relation", 0),
+         (assign, ":upper_limit", 0),
+       (try_end),
+       (store_random_in_range, ":amount", 1, ":upper_limit"), 
+       (party_set_slot, ":center_no", slot_center_volunteer_troop_a_amount_town, ":amount"),
+       (store_random_in_range, ":amount", 1, ":upper_limit"),
+       (party_set_slot, ":center_no", slot_center_volunteer_troop_b_amount_town, ":amount"),
+     ]),
+#End Eagle
+
+
   #script_update_npc_volunteer_troops_in_village
   # INPUT: arg1 = center_no
   # OUTPUT: none
@@ -33154,7 +33442,7 @@ scripts = [
      (else_try),
        (eq, ":improvement_no", slot_center_has_school),
        (str_store_string, s0, "@School"),
-       (str_store_string, s1, "@A shool increases the loyality of the villagers to you by +1 every month."),
+       (str_store_string, s1, "@A school increases the loyality of the villagers to you by +1 every month."),
        (assign, reg0, 9000),
      (else_try),
        (eq, ":improvement_no", slot_center_has_messenger_post),
@@ -33166,6 +33454,11 @@ scripts = [
        (str_store_string, s0, "@Prison Tower"),
        (str_store_string, s1, "@A prison tower reduces the chance of captives held here running away successfully."),
        (assign, reg0, 7000),
+     (else_try),
+       (eq, ":improvement_no", slot_center_has_military_academy),
+       (str_store_string, s0, "@Military Academy"),
+       (str_store_string, s1, "@A military academy enables the recruitement of the best troops in these lands."),
+       (assign, reg0, 1),
      (try_end),
      ]),
   
@@ -33241,6 +33534,21 @@ scripts = [
 	 
 	 
      ]),
+#Eagle
+  #script_cf_town_castle_recruit_volunteers_cond
+  # INPUT: none
+  # OUTPUT: none
+  ("cf_town_castle_recruit_volunteers_cond",
+    [(party_get_slot, ":center_relation", "$current_town", slot_center_player_relation),
+     (ge, ":center_relation", 0),
+     (party_slot_eq, "$current_town", slot_center_has_military_academy, 1), 
+     (party_slot_eq, "$current_town", slot_town_lord, "trp_player"), 
+     (party_slot_ge, "$current_town", slot_center_volunteer_troop_a_amount_town, 0),
+     (party_slot_ge, "$current_town", slot_center_volunteer_troop_b_amount_town, 0),
+     #(party_get_free_companions_capacity, ":free_capacity", "p_main_party"),
+     #(ge, ":free_capacity", 1),
+     ]),
+#Eagle
 
   #script_village_recruit_volunteers_recruit
   # INPUT: none
@@ -33259,6 +33567,45 @@ scripts = [
      (troop_remove_gold, "trp_player", ":cost"),
      ]),
 
+###Begin Eagle
+##  #script_town_castle_recruit_elite_troop_a_recruit
+##  # INPUT: none
+##  # OUTPUT: none
+##  ("town_castle_recruit_elite_troop_a_recruit",
+##    [
+##     (party_get_slot, ":original_faction", "$current_town", slot_center_original_faction), 
+##     (faction_get_slot, ":volunteer_troop_a", ":original_faction", slot_faction_special_troop_a),
+##     (party_get_slot, ":volunteer_amount_a", "$current_town", slot_center_volunteer_troop_a_amount_town),
+##     (party_get_free_companions_capacity, ":free_capacity", "p_main_party"),
+##     (val_min, ":volunteer_amount_a", ":free_capacity"),
+##     (store_troop_gold, ":gold", "trp_player"),
+##     (store_div, ":gold_capacity", ":gold", 200),#200 denars per man
+##     (val_min, ":volunteer_amount_a", ":gold_capacity"),
+##     (party_add_members, "p_main_party", ":volunteer_troop_a", ":volunteer_amount_a"),
+##     (store_mul, ":cost", ":volunteer_amount_a", 200),#200 denars per man
+##     (troop_remove_gold, "trp_player", ":cost"),
+##     ]),
+##
+##  #script_town_castle_recruit_elite_troop_b_recruit
+##  # INPUT: none
+##  # OUTPUT: none
+##  ("town_castle_recruit_elite_troop_b_recruit",
+##    [
+##     (party_get_slot, ":original_faction", "$current_town", slot_center_original_faction), 
+##     (faction_get_slot, ":volunteer_troop_b", ":original_faction", slot_faction_special_troop_b),
+##     (party_get_slot, ":volunteer_amount_b", "$current_town", slot_center_volunteer_troop_b_amount_town),
+##     (party_get_free_companions_capacity, ":free_capacity", "p_main_party"),
+##     (val_min, ":volunteer_amount_b", ":free_capacity"),
+##     (store_troop_gold, ":gold", "trp_player"),
+##     (store_div, ":gold_capacity", ":gold", 200),#200 denars per man
+##     (val_min, ":volunteer_amount_b", ":gold_capacity"),
+##     (party_add_members, "p_main_party", ":volunteer_troop_b", ":volunteer_amount_b"),
+##     (store_mul, ":cost", ":volunteer_amount_b", 200),#200 denars per man
+##     (troop_remove_gold, "trp_player", ":cost"),
+##     ]),
+
+#End Eagle
+  
   #script_get_troop_item_amount
   # INPUT: arg1 = troop_no, arg2 = item_no
   # OUTPUT: reg0 = item_amount
@@ -42187,7 +42534,7 @@ scripts = [
 	  (eq, ":do_only_collecting_rents", 0),
 		(neg|troop_slot_eq, "trp_player", slot_troop_betrothed, ":troop_no"),
 		(troop_slot_eq, ":troop_no", slot_troop_spouse, -1),
-		(neg|is_between, ":troop_no", kings_begin, kings_end),
+		(neg|is_between, ":troop_no" ,kings_begin, kings_end),
 		(neg|is_between, ":troop_no", pretenders_begin, pretenders_end),
 
 		

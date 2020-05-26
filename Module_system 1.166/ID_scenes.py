@@ -551,3 +551,4 @@ scn_enterprise_linen_weavery = 549
 scn_enterprise_wool_weavery = 550
 scn_enterprise_brewery = 551
 scn_enterprise_oil_press = 552
+scn_elite_troops_building = 553

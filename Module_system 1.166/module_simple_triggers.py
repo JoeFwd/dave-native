@@ -2513,10 +2513,9 @@ simple_triggers = [
     (try_end),
     ]),
   
-  # Adding mercenary troops to the towns
+ # Adding mercenary troops to the towns
   (72,
    [
-     (call_script, "script_update_mercenary_units_of_towns"),
      #NPC changes begin
      # removes   (call_script, "script_update_companion_candidates_in_taverns"),
      #NPC changes end
@@ -2525,12 +2524,23 @@ simple_triggers = [
      (call_script, "script_update_tavern_minstrels"),
      (call_script, "script_update_booksellers"),
      (call_script, "script_update_villages_infested_by_bandits"),
-     (try_for_range, ":village_no", villages_begin, villages_end),
+     (try_for_range, ":village_no", villages_begin, villages_end), #Eagle : changed from centers to villages
        (call_script, "script_update_volunteer_troops_in_village", ":village_no"),
        (call_script, "script_update_npc_volunteer_troops_in_village", ":village_no"),
      (try_end),
+     (call_script, "script_update_mercenary_units_of_towns"),
     ]),
 
+# Trigger for the elite troops recruitment for the player only. Seperated from the village trigger.
+#Begin Eagle
+  (4*24,
+   [
+     (try_for_range, ":town_no", towns_begin, towns_end), #changed from centers to villages
+       (call_script, "script_update_volunteer_troops_in_town", ":town_no"),
+     (try_end),
+    ]),
+#End Eagle
+  
   (24,
    [	
     (call_script, "script_update_other_taverngoers"),
@@ -2941,6 +2951,85 @@ simple_triggers = [
        (troop_set_slot, ":betrothed", slot_troop_betrothed, -1),
      (try_end),
      ]),
+
+#Eagle begin
+  
+  (4*24,
+   [
+#Si un lord est prisonnier, il ne doit pas recevoir d unite "virtuellement" et spawne avec ces unites immediatement. (bug possible a verifie)
+       (call_script, "script_cf_reinforce_king_party_with_elit_troops"),
+       (try_for_range, ":town_no", towns_begin, towns_end),
+           (try_begin),
+               (party_get_slot, ":town_lord", ":town_no", slot_town_lord), #Only town onwers.
+               (gt, ":town_lord", 0), #If the town has a lord
+               (party_slot_eq, ":town_no", slot_center_has_military_academy, 1), #If a military academy has been build in that city.
+               (neq, ":town_lord", "trp_player"), #Every lord and king but not the player.
+               (try_begin), #First, town's garrison gets elit troops
+                   (party_get_slot, ":besieger_party", ":town_no", slot_center_is_besieged_by),
+                   (lt, ":besieger_party", 0), #If the town is not under siege.
+                   (call_script, "script_cf_reinforce_party_with_elit_troops_restriction", ":town_no", ":town_lord"), #if elit troops capacity limit has not been reached. 
+                   (eq, reg2, 0), #reg2 = 1 if town limit has been reached 
+                   (call_script, "script_cf_reinforce_party_with_elit_troops", ":town_no", ":town_lord"),#adds random number (2-14) of elit troops. 
+                   #(call_script, "script_count_number_of_elit_troops_in_a_party", ":town_no"), #Test
+                   #(str_store_party_name, s1, ":town_no"),#Test
+                   #(display_message, "@{s1}'s garrison has got {reg0} elit soldiers"),#Test
+               (try_end),
+               (is_between, ":town_lord", companions_begin, lords_end), #lords and companions (who have been offered a fief).
+               (neg|is_between, ":town_lord", kings_begin, kings_end), #Check module_constants why.               
+               (troop_get_slot, ":lords_party", ":town_lord", slot_troop_leaded_party), #Store the party of the lord.
+               (try_begin), #Then, 
+                   (ge, ":lords_party", 1), #If he has been defeated and didn't spawn back, then he won't  get any of these troops.
+                   (party_is_active, ":lords_party"),
+                   (try_begin), #Test if the lord's town is beieged and if the lord is this city. If so, he won't get special troops.
+                       (party_get_slot, ":besieger_party", ":town_no", slot_center_is_besieged_by),
+                       (ge, ":besieger_party", 0), #town is under siege
+                       (party_get_attached_to, ":attached_to",":lords_party"), #directly gives the town where the lord rests. I'm not sure if it gives towns only. It won't be a problem though since there is a check.
+                       (ge, ":attached_to", 1), 
+                       (eq, ":attached_to", ":town_no"),#Check if the town corresponds to where the lord is located.
+                       (assign, ":lord_is_in_his_besieged_town", 1),#True
+                   (else_try),
+                       (assign, ":lord_is_in_his_besieged_town", 0),#False
+                   (try_end),
+                   (eq, ":lord_is_in_his_besieged_town", 0),
+                   (neg|party_slot_eq, ":lords_party", slot_party_ai_state, spai_engaging_army), #party is not engaged in a battle.
+                   (call_script, "script_cf_reinforce_party_with_elit_troops_restriction", ":lords_party", ":town_lord"), #elit troops capacity limit
+                   (eq, reg1, 0),
+                   (call_script, "script_cf_reinforce_party_with_elit_troops", ":lords_party", ":town_lord"), #if elit troops capacity limit has not been reached. (marshall or simple lord)
+                   #(call_script, "script_count_number_of_elit_troops_in_a_party", ":lords_party"),#Test
+                   #(str_store_troop_name, s2, ":town_lord"),#Test
+                   #(display_message, "@{s2}'s army has got {reg0} elit soldiers"),#Test
+               (try_end),
+           (try_end),
+        (try_end),
+   ]),
+           
+  #Prompt lord to build village improvement every week.	
+  (7*24,
+   [
+       #(display_message, "@Lord village improvement TRIGGERS !!!!"),
+       (try_for_range, ":town_no", towns_begin, towns_end),
+                (party_get_slot, ":besieger_party", ":town_no", slot_center_is_besieged_by),
+                (lt, ":besieger_party", 0), #town is not under siege.
+		(party_slot_eq, ":town_no", slot_center_current_improvement, 0),
+		(party_get_slot, ":town_lord", ":town_no", slot_town_lord),
+		(gt, ":town_lord", 0),
+		(is_between, ":town_lord", active_npcs_begin, active_npcs_end),
+		(neg|troop_slot_eq, ":town_lord", slot_troop_prisoner_of_party, 1),
+#		(assign, ":num_improvements", 0), Future system; only military academy for the moment.	 
+#		(try_for_range, ":improvement_no", village_improvements_begin, village_improvements_end), 
+#			(party_slot_eq, ":town_no", ":improvement_no", 1), 
+#			(val_add,  ":num_improvements", 1),
+#		(try_end),
+#		(lt, ":num_improvements", 2), #only 1 improvement atm.  
+		(call_script, "script_cf_lord_build_village_improvement", ":town_no"),
+	(try_end),
+    ]),
+
+#  (12,
+#   [
+#       (call_script, "script_auto_inventory_item_triage"),
+#    ]),
+#Eagle end
 		
   # Reduce renown slightly by 0.5% every week
   (7 * 24,

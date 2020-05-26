@@ -1293,4 +1293,7 @@ scenes = [
     [],[]),
   ("enterprise_oil_press",sf_indoors,"oil_press_interior", "bo_oil_press_interior", (-40,-40),(40,40),-100,"0",
     [],[]),
+  ("elite_troops_building",sf_indoors,"weavery_interior", "bo_weavery_interior", (-40,-40),(40,40),-100,"0",
+    [],[]),
+#
 ]
