@@ -928,3 +928,6 @@ trp_looter_leader = 926
 trp_bandit_leaders_end = 927
 trp_relative_of_merchant = 928
 trp_relative_of_merchants_end = 929
+trp_musican_male = 930
+trp_musican_female = 931
+trp_musicans_end = 932

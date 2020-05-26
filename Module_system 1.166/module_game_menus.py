@@ -9160,11 +9160,33 @@ game_menus = [
                (set_visitor, ":cur_entry", ":tavern_traveler"),
                (val_add, ":cur_entry", 1),
              (try_end),
-			 
+## Native			 
+#           (try_begin),
+#              (party_get_slot, ":tavern_minstrel", "$current_town", slot_center_tavern_minstrel),
+#               (gt, ":tavern_minstrel", 0),
+			   
+#               (set_visitor, ":cur_entry", ":tavern_minstrel"),
+#              (val_add, ":cur_entry", 1),
+#			 (else_try),  
+#			   (store_add, ":alternative_town", "$current_town", 9),
+#			   (try_begin),
+#				(ge, ":alternative_town", towns_end),
+#				(val_sub, ":alternative_town", 22),
+#			   (try_end),
+#               (party_get_slot, ":tavern_minstrel", ":alternative_town", slot_center_tavern_minstrel),			   
+#               (gt, ":tavern_minstrel", 0),
+			   
+#               (set_visitor, ":cur_entry", ":tavern_minstrel"),
+#               (val_add, ":cur_entry", 1),
+#             (try_end),
+##
+
+# Dedal begin
+ 			 (assign,":bard",0),#dedal
              (try_begin),
                (party_get_slot, ":tavern_minstrel", "$current_town", slot_center_tavern_minstrel),
                (gt, ":tavern_minstrel", 0),
-			   
+			   (assign,":bard",1),#dedal
                (set_visitor, ":cur_entry", ":tavern_minstrel"),
                (val_add, ":cur_entry", 1),
 			 (else_try),  
@@ -9175,11 +9197,12 @@ game_menus = [
 			   (try_end),
                (party_get_slot, ":tavern_minstrel", ":alternative_town", slot_center_tavern_minstrel),			   
                (gt, ":tavern_minstrel", 0),
-			   
+			   (assign,":bard",1),#dedal
                (set_visitor, ":cur_entry", ":tavern_minstrel"),
                (val_add, ":cur_entry", 1),
              (try_end),
-			 
+#Dedal end
+           
              (try_begin),
                (party_get_slot, ":tavern_bookseller", "$current_town", slot_center_tavern_bookseller),
                (gt, ":tavern_bookseller", 0),
@@ -9240,7 +9263,41 @@ game_menus = [
                
                (set_visitor, ":cur_entry", ":troop_of_merchant"),
                (val_add, ":cur_entry", 1),
-             (try_end),                         
+             (try_end),
+
+#dedal begin
+			(try_for_range,":entry",32,41),
+					(store_random_in_range,":r",0,100),
+					(gt,":r",50),#random chance of spawning 
+					(try_begin),
+						(eq,":bard",0),
+						(store_random_in_range,":r",0,15),
+						(gt,":r",13),
+						(mission_tpl_entry_clear_override_items,"mt_town_default",":entry"),
+						(store_random_in_range,":r",0,2),
+						(try_begin),
+							(eq,":r",0),
+							(mission_tpl_entry_add_override_item,"mt_town_default",":entry","itm_dedal_lutnia"),
+						(else_try),
+							(mission_tpl_entry_add_override_item,"mt_town_default",":entry","itm_dedal_lira"),
+						(try_end),
+						(store_random_in_range,":dna",0,1000),
+						(store_random_in_range,":troop","trp_musican_male","trp_musicans_end"),
+						(set_visitor,":entry",":troop",":dna"),
+						(assign,":bard",1),
+					(else_try),
+						(store_random_in_range,":town_walker",town_walkers_begin,town_walkers_end),
+						(store_random_in_range,":dna",0,1000),
+						(mission_tpl_entry_clear_override_items,"mt_town_default",":entry"),
+						(store_random_in_range,":r",0,10),
+						(try_begin),
+							(gt,":r",2),
+							(mission_tpl_entry_add_override_item,"mt_town_default",":entry","itm_dedal_kufel"),
+						(try_end),
+						(set_visitor,":entry",":town_walker",":dna"),
+					(try_end),
+			(try_end),
+#dedal end         
              
              (change_screen_mission),
            (try_end),
